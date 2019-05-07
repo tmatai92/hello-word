@@ -10,7 +10,7 @@ class Centralize:
 		super(Centralize, self).__init__()
 
 	def main(self, server, username, password, port, folder):
-		source_path = 'D:/service_328/sources'
+		source_path = '/var/lib/jenkins/workspace/centralize/Config'
 		remote_tmp_path = '/opt/its3/TSLIB/tmp'
 		working_path = '/opt/its3/TSLIB'
 		ssh = paramiko.SSHClient()
