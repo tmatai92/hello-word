@@ -1,0 +1,190 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_orbi_conversion </MODULE>
+	<TEST_TYPE> ORBI_CONVERSION </TEST_TYPE>
+	<LOG_LEVEL>All</LOG_LEVEL>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_POT_RESET_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuMgmt"/>
+				<METHOD name="switchOffDut" />
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT off </PARAM>
+					<PARAM name="pause_time"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 40 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="fw_cmd"> cat firmware_version </PARAM>
+					<PARAM name="fw_pattern"> ([0-9.-]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="readOrbiInfo">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="info_note"> current_info </PARAM>
+					<LIST_PARAM name="info_names">
+						<VALUE> SN </VALUE>
+						<VALUE> MAC </VALUE>
+						<VALUE> fronthaul_ssid </VALUE>
+						<VALUE> fronthaul_passphrase </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="read_info_cmds">
+						<VALUE> artmtd -r sn </VALUE>
+						<VALUE> artmtd -r mac </VALUE>
+						<VALUE> artmtd -r fronthaul_ssid </VALUE>
+						<VALUE> artmtd -r fronthaul_passphrase </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="info_patterns">
+						<VALUE> SN: (.*)\\r </VALUE>
+						<VALUE> \[(.*), 'root@ </VALUE>
+						<VALUE> (ORBI[0-9]+) </VALUE>
+						<VALUE> ([a-z]{5,}[0-9]{3}) </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="writeOrbiInfo">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> config set factory_mode=1 </VALUE>
+						<VALUE> artmtd -w board_model_id RBS40 </VALUE>
+						<VALUE> artmtd -w board_data 1105 </VALUE>
+						<VALUE> artmtd -w boot_part 01 </VALUE>
+						<!--<VALUE> config default </VALUE>
+						<VALUE> config commit </VALUE>-->
+						<VALUE> artmtd -w sn {serial_number} </VALUE>
+						<!--<VALUE> artmtd -w mac_lan {lan_mac} </VALUE>-->
+						<VALUE> artmtd -w fronthaul_ssid {fronthaul_ssid} </VALUE>
+						<VALUE> artmtd -w fronthaul_passphrase {fronthaul_pwd} </VALUE>
+						<VALUE> config default </VALUE>
+						<VALUE> config commit </VALUE>
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> Rebooting DUT... </PARAM>
+					<PARAM name="pause_time"> 40 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<!--<METHOD name="pingDUT">
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>-->
+
+				<METHOD name="reInitSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="old_ip_addr"> 192.168.1.1 </PARAM>
+					<PARAM name="new_ip_addr"> 192.168.1.250 </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+
+				<METHOD name="readOrbiInfo">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="info_note"> new_info </PARAM>
+					<LIST_PARAM name="info_names">
+						<VALUE> SN </VALUE>
+						<VALUE> MAC </VALUE>
+						<VALUE> fronthaul_ssid </VALUE>
+						<VALUE> fronthaul_pwd </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="read_info_cmds">
+						<VALUE> artmtd -r sn </VALUE>
+						<VALUE> artmtd -r mac </VALUE>
+						<VALUE> artmtd -r fronthaul_ssid </VALUE>
+						<VALUE> artmtd -r fronthaul_passphrase </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="info_patterns">
+						<VALUE> SN: (.*)\\r </VALUE>
+						<VALUE> \[(.*), 'root@ </VALUE>
+						<VALUE> (ORBI[0-9]+) </VALUE>
+						<VALUE> ([a-z]{5,}[0-9]{3}) </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="verifyOrbiInfo">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> artmtd -r board_model_id</VALUE>
+						<VALUE> artmtd -r board_data</VALUE>
+						<VALUE> artmtd -r boot_part</VALUE>
+						<VALUE> artmtd -r sn </VALUE>
+						<VALUE> artmtd -r fronthaul_ssid </VALUE>
+						<VALUE> artmtd -r fronthaul_passphrase </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_outputs">
+						<VALUE> RBS40 </VALUE>
+						<VALUE> 1105 </VALUE>
+						<VALUE> 01 </VALUE>
+						<VALUE> {serial_number} </VALUE>
+						<VALUE> {fronthaul_ssid} </VALUE>
+						<VALUE> {fronthaul_pwd} </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> config default </VALUE>
+						<VALUE> config commit </VALUE>
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut"/>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts"/>
+		<METHOD name="switchOffReferenceDevices"/>
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
