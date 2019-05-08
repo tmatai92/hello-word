@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <POWERRELAY>
+        <IP_ADDR> 192.168.2.106 </IP_ADDR>
+        <PORT_GRP>
+            <DUT_PORT> 7 </DUT_PORT>
+        </PORT_GRP>
+    </POWERRELAY>
+    
+    <SERIAL>
+        <DUT_PORT> /dev/COM7 </DUT_PORT>
+    </SERIAL>
+    <USB>
+        <SOUND_CARD>
+            <USB_PORT_ID> -7.4.4, </USB_PORT_ID>
+        </SOUND_CARD>
+    </USB>
+    <DUT>
+        <DUT_MGMT_USER> root </DUT_MGMT_USER>
+        <DUT_MGMT_PW> ngcam </DUT_MGMT_PW>
+    </DUT>
+</TEST_CONFIG>

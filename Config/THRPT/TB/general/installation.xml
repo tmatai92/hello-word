@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_SUITE>
+	<MODULE> FeaturesBase </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="config_install_testPC" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<!--<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_INSTALL_1 </PARAM>
+					<PARAM name="component_name"> TB Switch M4100-50G #1 </PARAM>
+					<PARAM name="access_type"> serial </PARAM>
+					<PARAM name="is_reset_required"> True </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>-->
+
+		<TEST_SEQ name="FW on TB Switch M4100-50G #1">
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="updateFW_TBSwitch">
+					<PARAM name="fw"> 10.0.1.28 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<!--<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_INSTALL_2 </PARAM>
+					<PARAM name="component_name"> TB Switch M4100-50G #1 </PARAM>
+					<PARAM name="access_type"> serial </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>-->
+
+		<!-- Configure M4100-50G switch -->
+		<TEST_SEQ name="M4100-50G Switch" mandatory="true">
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="config_TBSwitch">
+					<LIST_PARAM name="addrs">
+						<VALUE> 169.254.100.100 </VALUE>
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_NO_VLAN </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Test PC" mandatory="true">
+			<NORMAL_METHODS>
+				<METHOD name="config_ts_testPC">
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+</TEST_SUITE>

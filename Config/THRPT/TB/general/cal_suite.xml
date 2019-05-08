@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_SUITE>
+    <MODULE> Features_wifi_client </MODULE>
+    <TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+    <TEST_SEQ_GRP>
+        <TEST_SEQ>
+            <NORMAL_METHODS>
+                <METHOD name="initSkuMgmt"/>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ>
+            <NORMAL_METHODS>
+                <METHOD name="initSkuAccessIntf">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <PARAM name="timeout"> 2 </PARAM>
+                    <PARAM name="num_tries"> 3 </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ>
+            <NORMAL_METHODS>
+                <METHOD name="skuIntfAccessTest">
+                    <PARAM name="access_type"> serial </PARAM>
+					<PARAM name="fw_cmd"> vzdaemon --version | awk -F '"' '{print $2}'</PARAM>
+					<PARAM name="fw_pattern"> ([0-9._-]+) </PARAM>
+                    <PARAM name="num_tries"> 10 </PARAM>
+                    <LIST_PARAM name="init_cmds">
+                        <VALUE> killall vzdaemon vzwatchdog ivmotion advlbr </VALUE>
+                        <VALUE> apps_launcher -k </VALUE>
+                    </LIST_PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ>
+            <NORMAL_METHODS>
+                <METHOD name="sendCmds">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="cmds">
+                        <VALUE> amixer set "PGA" 100% </VALUE>
+                        <VALUE> amixer set "Speaker Volume Level" 100% </VALUE>
+                        <VALUE> rm -f /tmp/dut_recorded_audio* </VALUE>
+                    </LIST_PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ name="Audio Record Calibration Test">
+            <NORMAL_METHODS>
+                <METHOD name="audioRecordCalTest">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="audio_record_cmds">
+                        <VALUE> arecord -d 10 -f S16_LE -r 48000 /tmp/dut_recorded_audio.wav </VALUE>
+                        <VALUE> ls /tmp </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="audio_record_verify_strs">
+                        <VALUE> Recording WAVE '/tmp/dut_recorded_audio.wav' </VALUE>
+                        <VALUE> dut_recorded_audio </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="sku_file_download_cmds">
+                        <VALUE> uuencode /tmp/dut_recorded_audio* stdout </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="freq_trigger_level"> 500 </PARAM>
+                    <PARAM name="magnitude_trigger_level"> 400 </PARAM>
+                    <PARAM name="ref_magnitude_trigger_level"> 1000 </PARAM>
+                    <PARAM name="num_tries"> 3 </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ name="Audio Playback Calibration Test">
+            <NORMAL_METHODS>
+                <METHOD name="audioPlaybackCalTest">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="audio_playback_cmds">
+                        <VALUE> aplay -f S16_LE -r 48000 /tmp/dut_recorded_audio.wav </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="freq_trigger_level"> 500 </PARAM>
+                    <PARAM name="magnitude_trigger_level"> 200 </PARAM>
+                    <PARAM name="ref_magnitude_trigger_level"> 1000 </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ name="Day Image Calibration Test">
+            <NORMAL_METHODS>
+                <METHOD name="dayImageCalTest">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="image_capture_cmds">
+                        <VALUE> apps_launcher -k </VALUE>
+                        <VALUE> touch /usr/cali/sen_adc_value.txt </VALUE>
+                        <VALUE> apps_launcher -r </VALUE>
+                        <VALUE>
+                        </VALUE>
+                        <VALUE> rm -f /tmp/dut_day_img* </VALUE>
+                        <VALUE> echo -e "m\n0\nq" | test_irled_server </VALUE>
+                        <VALUE> apps_launcher -k </VALUE>
+                        <VALUE> amba_debug -g 45 -d 0x00 </VALUE>
+                        <VALUE> amba_debug -g 29 -d 0x00 </VALUE>
+                        <VALUE> test_encode -i 0 -V 576i --cvbs -X --bmaxsize 1080p --bsize 1080p </VALUE>
+                        <VALUE> test_stilcap -j -q 95 -J 1280x720 -f /tmp/dut_day_img </VALUE>
+                        <VALUE> ls /tmp </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="image_capture_read_until_prompts">
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> CServiceManager:: init_service_all OK </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="image_capture_verify_strs">
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> dut_day_img </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="sku_file_download_cmds">
+                        <VALUE> uuencode /tmp/dut_day_img* stdout </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="wait_time"> 2 </PARAM>
+                    <PARAM name="num_tries"> 3 </PARAM>
+                    <PARAM name="eol_check"> False </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ name="Night Image Calibartion Test">
+            <NORMAL_METHODS>
+                <METHOD name="nightImageCalTest">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="image_capture_cmds">
+                        <VALUE> apps_launcher -k </VALUE>
+                        <VALUE> touch /usr/cali/sen_adc_value.txt </VALUE>
+                        <VALUE> apps_launcher -r </VALUE>
+                        <VALUE>
+                        </VALUE>
+                        <VALUE> rm -f /tmp/dut_night_img* </VALUE>
+                        <VALUE> echo -e "m\n1\nq" | test_irled_server </VALUE>
+                        <VALUE> apps_launcher -k </VALUE>
+                        <VALUE> amba_debug -g 45 -d 0x01 </VALUE>
+                        <VALUE> amba_debug -g 29 -d 0x01 </VALUE>
+                        <VALUE> test_encode -i 0 -V 576i --cvbs -X --bmaxsize 1080p --bsize 1080p </VALUE>
+                        <VALUE> test_stilcap -j -q 95 -J 1280x720 -f /tmp/dut_night_img </VALUE>
+                        <VALUE> ls /tmp </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="image_capture_read_until_prompts">
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> CServiceManager:: init_service_all OK </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                        <VALUE> # </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="image_capture_verify_strs">
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> dut_night_img </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="sku_file_download_cmds">
+                        <VALUE> uuencode /tmp/dut_night_img* stdout </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="wait_time"> 2 </PARAM>
+                    <PARAM name="num_tries"> 3 </PARAM>
+                    <PARAM name="eol_check"> False </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ name="Factory Reset" mandatory="true">
+            <NORMAL_METHODS>
+                <METHOD name="factoryReset">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <LIST_PARAM name="reset_cmds">
+                        <VALUE> killall vzdaemon vzwatchdog ivmotion advlbr </VALUE>
+                        <VALUE> nandwrite --reset_flag=1; </VALUE>
+                        <VALUE> rm -rf /overlay/* /tmp/media/nand/* </VALUE>
+                        <VALUE> umount /overlay </VALUE>
+                        <VALUE> reboot </VALUE>
+                    </LIST_PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+        <TEST_SEQ cleanup="True">
+            <NORMAL_METHODS>
+                <METHOD name="cleanupTestEnv">
+                    <PARAM name="access_type"> serial </PARAM>
+                    <PARAM name="timeout"> 20 </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+        </TEST_SEQ>
+    </TEST_SEQ_GRP>
+</TEST_SUITE>

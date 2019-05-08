@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <L2_SWITCH>
+        <IP_ADDR> 192.168.2.102 </IP_ADDR>
+        <WIFI_ROUTER_PORT> 10 </WIFI_ROUTER_PORT>
+    </L2_SWITCH>
+
+    <POWERRELAYS>
+    	<LED_POWERRELAY>
+    		<IP_ADDR> 192.168.2.111 </IP_ADDR>
+    	</LED_POWERRELAY>
+    </POWERRELAYS>
+
+    <DUT>
+        <DUT_MGMT_USER> admin </DUT_MGMT_USER>
+        <DUT_MGMT_PW> password </DUT_MGMT_PW>
+		<SUFFIX_5G> -5G </SUFFIX_5G>
+        <SUFFIX_5G_2> -5G-2 </SUFFIX_5G_2>        
+    </DUT>
+    <IMAGE> <!--image file name format -->
+        <REF> 
+            <DAY_IMAGE> ref_day_img.jpeg </DAY_IMAGE>
+            <NIGHT_IMAGE> ref_night_img.jpeg </NIGHT_IMAGE>
+        </REF>
+        <DUT>
+            <DAY_IMAGE> dut_day_img.jpeg </DAY_IMAGE>
+            <NIGHT_IMAGE> dut_night_img.jpeg </NIGHT_IMAGE>
+        </DUT>
+    </IMAGE>
+    
+    <AUDIO> <!--audio file name format -->
+	<AUDIO_PC>
+		<IP_ADDR> 192.168.2.1 </IP_ADDR>
+		<USER_NAME> ts2wndr </USER_NAME>
+		<PASSWORD> netgear </PASSWORD>
+		<SPEAKER_VOLUME> 50 </SPEAKER_VOLUME> 	<!-- percentage of volume-->
+		<MIC_VOLUME> 30 </MIC_VOLUME>		<!-- percentage of volume-->
+	</AUDIO_PC>
+	<GOLDEN_SAMPLE> golden_sample_audio.wav </GOLDEN_SAMPLE> 	        <!-- The playback file at Audio PC -->     
+	<REF>
+		<RECORDED_AUDIO> ref_recorded_audio.wav </RECORDED_AUDIO>	<!-- The referrence audio file (CAL_DATA) at Test PC -->
+		<PLAYBACK_AUDIO> ref_playback_audio.wav </PLAYBACK_AUDIO>
+	</REF> 					     
+        <DUT>  	
+		<RECORDED_AUDIO> dut_recorded_audio.wav </RECORDED_AUDIO>	<!-- The DUT recorded audio file in Audio PC and will be download by Test PC -->
+            	<PLAYBACK_AUDIO> dut_playback_audio.wav </PLAYBACK_AUDIO>
+        </DUT>
+    </AUDIO>
+    
+    <WIFI_ROUTER>
+        <WIFI_ROUTER_IP_ADDR> 192.168.3.2 </WIFI_ROUTER_IP_ADDR>
+        <SSID_24G> [stationname]-24G </SSID_24G>
+        <SSID_5G> [stationname]-5G </SSID_5G>
+        <SECURITY_KEY> netgear </SECURITY_KEY>
+    </WIFI_ROUTER>
+</TEST_CONFIG>
