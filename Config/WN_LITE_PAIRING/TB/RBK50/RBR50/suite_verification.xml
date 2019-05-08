@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_orbi_pairing </MODULE>
+        <TEST_TYPE> ORBI_PAIRING </TEST_TYPE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuMgmt" />
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="fw_cmd"> cat firmware_version </PARAM>
+					<PARAM name="fw_pattern"> ([0-9.-]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="getFronthaulSSID">
+					<PARAM name="access_type"> telnet </PARAM>
+                                        <PARAM name="source"> shared_data </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="getFronthaulPWD">
+					<PARAM name="access_type"> telnet </PARAM>
+                                        <PARAM name="source"> shared_data </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="getBackhaulSSID">
+					<PARAM name="access_type"> telnet </PARAM>
+                                        <PARAM name="source"> shared_data </PARAM>
+				</METHOD>
+				<METHOD name="getBackhaulPWD">
+					<PARAM name="access_type"> telnet </PARAM>
+                                        <PARAM name="source"> shared_data </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="verifyPairingConnection">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="mac_cmd"> satelliteinfo device </PARAM>
+                                        <PARAM name="mac_pattern"> \w\w:\w\w:\w\w:\w\w:\w\w:\w\w </PARAM>
+					<PARAM name="num_tries"> 200 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

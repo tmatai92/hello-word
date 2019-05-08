@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_orbi_pairing </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+        <TEST_TYPE> ORBI_PAIRING </TEST_TYPE>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuMgmt" />
+				<METHOD name="switchOffDut" />
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> Pause before turning the DUT on </PARAM>
+					<PARAM name="pause_time"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+                                        <PARAM name="num_tries"> 60 </PARAM>
+				</METHOD>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+				<METHOD name="getBackhaulCheckSum" />
+				<METHOD name="getSN">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="sn_cmd"> show_product_info </PARAM>
+					<PARAM name="sn_pattern"> Serial Number: ([A-Z0-9]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="getMAC">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+
+				<TEST_SEQ>
+					<NORMAL_METHODS>
+						<METHOD name="verifyPairingInfo">
+							<PARAM name="access_type"> telnet </PARAM>
+							<PARAM name="fronthaul_ssid_cmd"> nvram get wl_ssid </PARAM>
+				    <PARAM name="fronthaul_ssid_pattern"> ([A-Z0-9]+) </PARAM>               
+							<PARAM name="fronthaul_pwd_cmd"> nvram get wl_wpa2_psk</PARAM>
+							<PARAM name="fronthaul_pwd_pattern"> ([a-zA-Z0-9]+) </PARAM>  
+							<PARAM name="backhaul_ssid_cmd"> nvram get wlg_ap_bh_ssid </PARAM>
+							<PARAM name="backhaul_ssid_pattern"> ([A-Za-z_]+[0-9._-]+) </PARAM>  
+							<PARAM name="backhaul_pwd_cmd"> nvram get wla_2nd_ap_bh_wpa2_psk </PARAM>
+							<PARAM name="backhaul_pwd_pattern"> ([a-zA-Z0-9]+) </PARAM>  
+							<PARAM name="board_data_cmd"> artmtd -r board_data </PARAM>
+							<PARAM name="board_data_pattern"> ([0-9]+) </PARAM> 
+							<PARAM name="board_data_type"> router_board_data </PARAM>
+							<PARAM name="num_tries"> 3 </PARAM>
+						</METHOD>
+					</NORMAL_METHODS>
+				</TEST_SEQ>
+
+				<METHOD name="scanAndVerifyLabel">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="sn_img"> ORBI.jpg </PARAM>
+					<PARAM name="sn_msg"> Scan in Orbi Satelite's QR Code </PARAM>
+					<PARAM name="require_sn"> True </PARAM>
+					<PARAM name="require_mac"> True </PARAM>
+					<PARAM name="require_ssid"> True </PARAM>
+					<PARAM name="require_pwd"> True </PARAM>
+					<PARAM name="fronthaul_ssid_cmd"> artmtd -r fronthaul_ssid </PARAM>
+                    <PARAM name="fronthaul_ssid_pattern"> ssid:([A-Za-z_]+[0-9._-]+) </PARAM>
+					<PARAM name="fronthaul_pwd_cmd"> artmtd -r fronthaul_passphrase </PARAM>
+                    <PARAM name="fronthaul_pwd_pattern"> passphrase:([a-zA-Z0-9]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
+
