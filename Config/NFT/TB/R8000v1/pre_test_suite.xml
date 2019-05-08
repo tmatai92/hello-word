@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_SUITE>
+	<MODULE> nftFeatureBase </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP> 
+		<TEST_SEQ>
+			<METHOD execute_once="True" name="config_TBSwitch">
+				<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_NFT </PARAM>
+				<LIST_PARAM name="addrs">
+					<VALUE> 192.168.2.102 </VALUE>
+					<VALUE> 169.254.100.100 </VALUE>
+				</LIST_PARAM>
+			</METHOD>
+			<METHOD name="initTestSystem">
+				<PARAM name="pwr_sensor_offset"> 20 </PARAM>
+				<PARAM name="measurement_count"> 10 </PARAM>
+			</METHOD>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD execute_once="True" name="pauseTestSequence">
+				<PARAM name="msg"> Waiting for DUT to boot up </PARAM>
+				<PARAM name="pause_time"> 30 </PARAM>
+			</METHOD>
+			<METHOD name="pingDUT">
+				<PARAM name="num_tries"> 50 </PARAM>
+			</METHOD>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD execute_once="True" name="pauseTestSequence">
+				<PARAM name="msg"> Waiting for DUT to complete boot-up </PARAM>
+				<PARAM name="pause_time"> 5 </PARAM>
+			</METHOD>
+			<METHOD name="initSkuAccessIntf" >
+				<PARAM name="access_type"> telnet </PARAM>
+				<PARAM name="timeout"> 20 </PARAM>
+				<PARAM name="num_tries"> 10 </PARAM>
+			</METHOD>
+			<METHOD name="setRegion"> <!-- Don't need to change region on the DUT, will set the country code later -->
+				<PARAM name="access_type"> telnet </PARAM>
+				<LIST_PARAM name="set_commands">
+					<VALUE> echo {region} </VALUE>
+				</LIST_PARAM>
+				<PARAM name="region"> NA </PARAM>
+				<LIST_PARAM name="verify_cmds">
+					<VALUE> echo 0x0001 </VALUE>
+				</LIST_PARAM>
+				<LIST_PARAM name="reboot_cmds">
+					<VALUE> echo </VALUE>
+				</LIST_PARAM>
+				<PARAM name="wait_time"> 1 </PARAM>
+				<PARAM name="num_tries"> 3 </PARAM>
+			</METHOD>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD name="sendCmds">
+				<PARAM name="access_type"> telnet </PARAM>
+				<LIST_PARAM name="cmds">
+					<VALUE> wl -i eth1 country Q2/86 </VALUE> <!-- set country code -->
+					<VALUE> wl -i eth2 country Q2/86 </VALUE> <!-- set country code -->					
+					<VALUE> wl -i eth3 country Q2/86 </VALUE> <!-- set country code -->					
+					<VALUE> wl bi 1 </VALUE> <!-- increase beacon interval to get result a bit faster, default value is 100 -->
+					<VALUE> wl -i eth1 bi 1 </VALUE>
+					<VALUE> wl -i eth2 bi 1 </VALUE>
+					<VALUE> wl -i eth3 bi 1 </VALUE>
+				</LIST_PARAM>
+			</METHOD>
+		</TEST_SEQ>		
+
+		<TEST_SEQ>
+			<METHOD name="acquireResourceLock" />
+		</TEST_SEQ>
+
+		<!-- Ant #1 - 2.4G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 1 </PARAM>
+				</METHOD>				
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>				
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth2 down </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>				
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>						
+				<!-- config wifi on DUT for 2.4G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 chanspec 6 </VALUE>
+						<VALUE> wl -i eth1 nrate -r 1 </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 radio on </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 txchain 1 </VALUE>
+						<VALUE> wl -i eth1 txchain </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>					
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+
+		</TEST_SEQ>
+
+		<!-- Ant #2 - 2.4G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 2 </PARAM>
+				</METHOD>
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">					
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth2 down </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+				<!-- config wifi on DUT for 2.4G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 chanspec 6 </VALUE>
+						<VALUE> wl -i eth1 nrate -r 1 </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 radio on </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 txchain 2 </VALUE>
+						<VALUE> wl -i eth1 txchain </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>
+
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<!-- Ant #3 - 2.4G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 3 </PARAM>
+				</METHOD>
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">			
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth2 down </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>
+				<!-- config wifi on DUT for 2.4G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 chanspec 6 </VALUE>
+						<VALUE> wl -i eth1 nrate -r 1 </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 radio on </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 txchain 4 </VALUE>
+						<VALUE> wl -i eth1 txchain </VALUE>
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth1 up </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+
+		</TEST_SEQ>
+
+		<!-- Ant #4 - 5G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 4 </PARAM>
+				</METHOD>				
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">					
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 157 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth2 down </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>				
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>			
+				<!-- config wifi on DUT for 5G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth2 down </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 chanspec 157 </VALUE>
+						<VALUE> wl -i eth3 nrate -r 6 -b 20 </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 radio on </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 txchain 1 </VALUE>
+						<VALUE> wl -i eth3 txchain </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>					
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>				
+
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>				
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<!-- Ant #5 - 5G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 5 </PARAM>
+				</METHOD>				
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 5 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 157 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth2 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>				
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>			
+				<!-- config wifi on DUT for 5G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 chanspec 157 </VALUE>
+						<VALUE> wl -i eth3 nrate -r 6 -b 20 </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 radio on </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 txchain 2 </VALUE>
+						<VALUE> wl -i eth3 txchain </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>					
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>	
+
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 5 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>				
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<!-- Ant #6 - 5G test -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 6 </PARAM>
+				</METHOD>				
+				<!-- config freq on Power Sensor -->
+				<METHOD name="configPowerSensor_NFT">				
+					<PARAM name="antenna_number"> 6 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 157 </PARAM>
+					<PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+					<PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<!-- turn off all wifi bands -->
+						<VALUE> wl -i eth1 down </VALUE>
+						<VALUE> wl -i eth2 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>				
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>			
+				<!-- config wifi on DUT for 5G -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 chanspec 157 </VALUE>
+						<VALUE> wl -i eth3 nrate -r 6 -b 20 </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 radio on </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 txchain 4 </VALUE>
+						<VALUE> wl -i eth3 txchain </VALUE>
+						<VALUE> wl -i eth3 down </VALUE>
+						<VALUE> wl -i eth3 up </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+					</LIST_PARAM>
+				</METHOD>					
+				<!-- get RF measurements -->
+				<METHOD name="getRFMeasurements"/>	
+
+				<!-- nft test -->
+				<METHOD name="nftTest_pre">
+					<PARAM name="antenna_number"> 6 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>				
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<!--turn off source signal so power sensor can measure the noise -->
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> wl -i eth3 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<!-- perform zeroing on Power Sensor -->
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+
+		</TEST_SEQ>
+		
+		<TEST_SEQ>
+            <METHOD name="reportScreeningTestResult" />
+        </TEST_SEQ>
+		
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="releaseResourceLock" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<!-- Disable powering off the DUT for now
+        <TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+        </TEST_SEQ> 
+	-->
+	</TEST_SEQ_GRP>
+
+	<ACTION_ON_QUIT>  
+		<METHOD name="actionOnQuit" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
+

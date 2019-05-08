@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <L2_SWITCH>
+        <LAN_PORT_GRP>
+            <PORT> 19 </PORT>
+        </LAN_PORT_GRP>
+    </L2_SWITCH>
+    <OSP>
+		<ANT_GRP>
+			<ANT>
+				<ANT_NUMBER> 1 </ANT_NUMBER>
+				<RF_CABLE_NUMBER> 25 </RF_CABLE_NUMBER> <!--1->30-->
+			</ANT>
+			<ANT>
+				<ANT_NUMBER> 2 </ANT_NUMBER>
+				<RF_CABLE_NUMBER> 26 </RF_CABLE_NUMBER> <!--1->30-->
+			</ANT>
+			<ANT>
+				<ANT_NUMBER> 3 </ANT_NUMBER>
+				<RF_CABLE_NUMBER> 27 </RF_CABLE_NUMBER> <!--1->30-->
+			</ANT>
+		</ANT_GRP>
+    </OSP>
+    <PWR_SENSOR>
+        <SN> N/A </SN>
+    </PWR_SENSOR>
+    <DUT>
+        <INF_IP_ADDR> 192.168.1.219 </INF_IP_ADDR>
+        <DUT_DATA_INF> eth1.219 </DUT_DATA_INF>
+        <DUT_MGMT_INF> eth1.219 </DUT_MGMT_INF>
+    </DUT>
+</TEST_CONFIG>

@@ -1,0 +1,104 @@
+<ANT_TX_SPEC>
+    <REGION value="NA"> <!-- NA -->
+       <ANT>
+            <NUMBER>1</NUMBER>
+            <SPEC band="2.4G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+            <SPEC band="5G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+        </ANT>
+       <ANT>
+            <NUMBER>2</NUMBER>
+            <SPEC band="2.4G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+            <SPEC band="5G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+        </ANT>
+       <ANT>
+            <NUMBER>3</NUMBER>
+            <SPEC band="2.4G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+            <SPEC band="5G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+        </ANT>
+       <ANT>
+            <NUMBER>4</NUMBER>
+            <SPEC band="2.4G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+            <SPEC band="5G">
+                <VALUE>23</VALUE>
+                <RANGE_NORMAL>
+                    <UPPER>2</UPPER>
+                    <LOWER>-2</LOWER>
+                </RANGE_NORMAL>
+                <RANGE_SCREEN>
+                    <UPPER>1.5</UPPER>
+                    <LOWER>-1.5</LOWER>
+                </RANGE_SCREEN>
+            </SPEC>
+        </ANT>
+    </REGION>
+</ANT_TX_SPEC>

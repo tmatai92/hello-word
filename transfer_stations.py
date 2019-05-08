@@ -7,7 +7,6 @@ import shutil
 from re import sub
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
-print(APP_DIR)
 class Centralize:
 	"""docstring for Centralize"""
 	def __init__(self):

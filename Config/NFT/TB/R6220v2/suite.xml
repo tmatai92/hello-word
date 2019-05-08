@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_SUITE>
+    <MODULE> nftFeatureBase </MODULE>
+    <TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+    <TEST_SEQ_GRP> 
+        <TEST_SEQ>
+		<METHOD execute_once="True" name="startService">
+			<LIST_PARAM name="cmds">
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.211 8081
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.212 8082
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.213 8083
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.214 8084
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.215 8085
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.216 8086
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.217 8087
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.218 8088
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.219 8089
+				</VALUE>
+				<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.220 8090
+				</VALUE>
+			</LIST_PARAM>
+			<LIST_PARAM name="envs">
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+				<VALUE> PYTHONPATH =
+					/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+				</VALUE>
+			</LIST_PARAM>
+		</METHOD>
+            <METHOD execute_once="True" name="config_TBSwitch">
+                <PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_NFT </PARAM>
+                <LIST_PARAM name="addrs">
+                    <VALUE> 192.168.2.102 </VALUE>
+                    <VALUE> 169.254.100.100 </VALUE>
+                </LIST_PARAM>
+            </METHOD>
+            <METHOD name="initTestSystem">
+                <PARAM name="pwr_sensor_offset"> 10 </PARAM>
+                <PARAM name="measurement_count"> 10 </PARAM>
+            </METHOD>
+        </TEST_SEQ>
+
+        <TEST_SEQ>
+            <METHOD name="pauseTestSequence" >
+                <PARAM name="pause_time"> 45 </PARAM>
+            </METHOD>
+            <METHOD name="pingDUT" />
+        </TEST_SEQ>
+
+        <TEST_SEQ>
+            <METHOD name="initSkuAccessIntf" >
+                <PARAM name="access_type"> telnet </PARAM>
+                <PARAM name="timeout"> 20 </PARAM>
+                <PARAM name="num_tries"> 10 </PARAM>
+            </METHOD>
+        </TEST_SEQ>
+
+        <TEST_SEQ>
+                <METHOD name="setRegion"> <!-- Don't need to change region on the DUT, will set the country code later -->
+                    <PARAM name="access_type"> telnet </PARAM>
+                    <LIST_PARAM name="set_commands">
+                        <VALUE> echo "" </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="region"> NA </PARAM>
+                    <LIST_PARAM name="verify_cmds">
+                        <VALUE> echo "0X0001" </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="reboot_cmds">
+                        <VALUE> echo "" </VALUE>
+                    </LIST_PARAM>
+                    <PARAM name="wait_time"> 1 </PARAM>
+                    <PARAM name="num_tries"> 3 </PARAM>
+                </METHOD>
+                <METHOD name="sendCmds">
+                    <PARAM name="access_type"> telnet </PARAM>
+                    <LIST_PARAM name="cmds">
+                        <VALUE> nvram set wifi_channel=6 </VALUE>
+                        <VALUE> nvram set wifi_channel1=153 </VALUE>
+                        <VALUE> nvram set flash_default_region="United States" </VALUE>
+                        <VALUE> nvram set wifi_region="United States"</VALUE>
+                        <VALUE> nvram set wifi_region1="United States" </VALUE>
+                        <VALUE> rc wlan restart </VALUE>
+                        <VALUE> nvram show | grep flash_default_region </VALUE>
+                    </LIST_PARAM>
+                    <LIST_PARAM name="verification_outputs">
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> None </VALUE>
+                        <VALUE> United States </VALUE>
+                    </LIST_PARAM>
+                </METHOD>
+        </TEST_SEQ>
+
+        <TEST_SEQ>
+            <METHOD name="acquireResourceLock" />
+        </TEST_SEQ>
+
+        <!-- Ant #2 - 2.4G test -->
+        <TEST_SEQ>
+            <TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+            <INIT_METHODS>
+                <METHOD name="configOSPRelays">
+                    <PARAM name="antenna_number"> 2 </PARAM>
+                </METHOD>
+
+                <!-- config freq on Power Sensor -->
+                <METHOD name="configPowerSensor_NFT">
+                    <PARAM name="antenna_number"> 2 </PARAM>
+                    <PARAM name="rf_band"> 2.4G </PARAM>
+                    <PARAM name="wifi_channel"> 6 </PARAM>
+                    <PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+                    <PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+                    <PARAM name="timeslot_stop"> 0 </PARAM>
+                </METHOD>
+
+            </INIT_METHODS>
+
+            <NORMAL_METHODS>
+
+                <!-- get RF measurements -->
+                <METHOD name="getRFMeasurements"/>
+
+                <!-- nft test -->
+                <METHOD name="nftTest">
+                    <PARAM name="antenna_number"> 2 </PARAM>
+                    <PARAM name="rf_band"> 2.4G </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+
+            <RECOVERY_METHODS>
+                <!-- perform zeroing on Power Sensor -->
+                <METHOD name="powerSensorCalibrateZero"/>    
+            </RECOVERY_METHODS>
+        </TEST_SEQ>
+
+                <!-- Ant #4 - 2.4G test -->
+        <TEST_SEQ>
+            <TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+            <INIT_METHODS>
+                <METHOD name="configOSPRelays">
+                    <PARAM name="antenna_number"> 4 </PARAM>
+                </METHOD>
+
+                <!-- config freq on Power Sensor -->
+                <METHOD name="configPowerSensor_NFT">
+                    <PARAM name="antenna_number"> 4 </PARAM>
+                    <PARAM name="rf_band"> 2.4G </PARAM>
+                    <PARAM name="wifi_channel"> 6 </PARAM>
+                    <PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+                    <PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+                    <PARAM name="timeslot_stop"> 0 </PARAM>
+                </METHOD>
+
+            </INIT_METHODS>
+
+            <NORMAL_METHODS>
+
+                <!-- get RF measurements -->
+                <METHOD name="getRFMeasurements"/>
+
+                <!-- nft test -->
+                <METHOD name="nftTest">
+                    <PARAM name="antenna_number"> 4 </PARAM>
+                    <PARAM name="rf_band"> 2.4G </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+
+            <RECOVERY_METHODS>
+                <!-- perform zeroing on Power Sensor -->
+                <METHOD name="powerSensorCalibrateZero"/>    
+            </RECOVERY_METHODS>
+        </TEST_SEQ>
+
+        <!-- Ant #1 - 5G test -->
+        <TEST_SEQ>
+            <TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+            <INIT_METHODS>
+                <METHOD name="configOSPRelays">
+                    <PARAM name="antenna_number"> 1 </PARAM>
+                </METHOD>
+
+                <!-- config freq on Power Sensor -->
+                <METHOD name="configPowerSensor_NFT">
+                    <PARAM name="antenna_number"> 1 </PARAM>
+                    <PARAM name="rf_band"> 5G </PARAM>
+                    <PARAM name="wifi_channel"> 153 </PARAM>
+                    <PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+                    <PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+                    <PARAM name="timeslot_stop"> 0 </PARAM>
+                </METHOD>
+
+            </INIT_METHODS>
+
+            <NORMAL_METHODS>
+
+                <!-- get RF measurements -->
+                <METHOD name="getRFMeasurements"/>
+
+                <!-- nft test -->
+                <METHOD name="nftTest">
+                    <PARAM name="antenna_number"> 1 </PARAM>
+                    <PARAM name="rf_band"> 5G </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+
+            <RECOVERY_METHODS>
+                <!-- perform zeroing on Power Sensor -->
+                <METHOD name="powerSensorCalibrateZero"/>                
+            </RECOVERY_METHODS>
+        </TEST_SEQ>
+
+        <TEST_SEQ cleanup="True">
+            <METHOD name="releaseResourceLock" />
+        </TEST_SEQ>
+
+        <!-- Ant #3 - 5G test -->
+        <TEST_SEQ>
+            <TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+            <INIT_METHODS>
+                <METHOD name="configOSPRelays">
+                    <PARAM name="antenna_number"> 3 </PARAM>
+                </METHOD>
+
+                <!-- config freq on Power Sensor -->
+                <METHOD name="configPowerSensor_NFT">
+                    <PARAM name="antenna_number"> 3 </PARAM>
+                    <PARAM name="rf_band"> 5G </PARAM>
+                    <PARAM name="wifi_channel"> 153 </PARAM>
+                    <PARAM name="timeslot_width"> 2.0e-3 </PARAM>
+                    <PARAM name="timeslot_start"> 2.6e-4 </PARAM>
+                    <PARAM name="timeslot_stop"> 0 </PARAM>
+                </METHOD>
+
+            </INIT_METHODS>
+
+            <NORMAL_METHODS>
+
+                <!-- get RF measurements -->
+                <METHOD name="getRFMeasurements"/>
+
+                <!-- nft test -->
+                <METHOD name="nftTest">
+                    <PARAM name="antenna_number"> 3 </PARAM>
+                    <PARAM name="rf_band"> 5G </PARAM>
+                </METHOD>
+            </NORMAL_METHODS>
+
+            <RECOVERY_METHODS>
+                <!-- perform zeroing on Power Sensor -->
+                <METHOD name="powerSensorCalibrateZero"/>                
+            </RECOVERY_METHODS>
+        </TEST_SEQ>
+
+        <TEST_SEQ cleanup="True">
+            <METHOD name="releaseResourceLock" />
+        </TEST_SEQ>
+
+    </TEST_SEQ_GRP>
+
+    <ACTION_ON_QUIT>  
+        <METHOD name="actionOnQuit" />
+    </ACTION_ON_QUIT>
+</TEST_SUITE>
+

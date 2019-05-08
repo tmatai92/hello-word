@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <L2_SWITCH>
+        <IP_ADDR> 192.168.2.102 </IP_ADDR>
+    </L2_SWITCH>
+    <DUT>
+		<TELNET_LOGIN_PROMPT> login: </TELNET_LOGIN_PROMPT>
+		<TELNET_PW_PROMPT> Password: </TELNET_PW_PROMPT>
+		<TELNET_CMD_PROMPT> # </TELNET_CMD_PROMPT>
+		<TELNET_TERMINATION_PROMPT> \n </TELNET_TERMINATION_PROMPT>
+        <DUT_MGMT_USER> admin </DUT_MGMT_USER>
+        <DUT_MGMT_PW> password </DUT_MGMT_PW>
+		<DUT_DATA_ADDR> 192.168.1.250 </DUT_DATA_ADDR>
+        <DUT_MGMT_ADDR> 192.168.1.250 </DUT_MGMT_ADDR>
+        
+        <TELNET_ENABLE_TOOLS> 
+            <TOOL>telnetenable.py</TOOL>
+            <TOOL>telnetenable_EX7000.py</TOOL>
+            <TOOL>telnetenable_VMB3000.py</TOOL>
+        </TELNET_ENABLE_TOOLS>
+    </DUT>
+    
+	<RESOURCE_LOCK>1</RESOURCE_LOCK> <!-- testbed process lock: 1, 2,...,10  -->
+    <!-- NFT ITEMS -->
+    <OSP>
+    	<IP_ADDR> 192.168.2.103 </IP_ADDR>
+    </OSP>
+</TEST_CONFIG>

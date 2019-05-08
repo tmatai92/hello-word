@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_SUITE>
+	<MODULE> nftFeatureBase </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP> 
+		<TEST_SEQ>
+			<METHOD execute_once="True" name="config_TBSwitch">
+				<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_NFT </PARAM>
+				<LIST_PARAM name="addrs">
+					<VALUE> 192.168.2.102 </VALUE>
+					<VALUE> 169.254.100.100 </VALUE>
+				</LIST_PARAM>
+			</METHOD>
+			<METHOD name="initTestSystem">
+				<PARAM name="pwr_sensor_offset"> 20 </PARAM>
+				<PARAM name="measurement_count"> 10 </PARAM>
+			</METHOD>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD name="pauseTestSequence">
+				<PARAM name="pause_time"> 40 </PARAM>
+			</METHOD>
+			<METHOD name="pingDUT" />
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD name="initSkuAccessIntf" >
+				<PARAM name="access_type"> telnet </PARAM>
+				<PARAM name="timeout"> 20 </PARAM>
+				<PARAM name="num_tries"> 10 </PARAM>
+			</METHOD>
+			<METHOD name="getRegion">
+				<PARAM name="access_type"> telnet </PARAM>
+				<PARAM name="region_pattern"> Region: ([A-Za-z]+) </PARAM>
+				<PARAM name="command"> show_product_info </PARAM>
+			</METHOD>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<METHOD name="acquireResourceLock" />
+		</TEST_SEQ>
+
+		<!-- Cable 1 - 2.4G (Ant-1) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 1 </PARAM>
+				</METHOD>
+
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 7e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+						<VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi1 txchainmask 0x02 </VALUE>
+						<VALUE> iwpriv wifi1 rxchainmask 0x02 </VALUE>
+						<VALUE> iwconfig ath1 channel 1 </VALUE> 
+						<VALUE> ifconfig ath1 up </VALUE> 
+						<VALUE> iwconfig ath1 channel 6 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+
+				<METHOD name="getRFMeasurements"/>
+
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+						<VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<!-- Cable 1 - 5G (Ant-2) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 1 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 44 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 1.5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+						<VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi0 txchainmask 0x04 </VALUE>
+						<VALUE> iwpriv wifi0 rxchainmask 0x04 </VALUE>
+						<VALUE> iwconfig ath0 channel 36 </VALUE> 
+						<VALUE> ifconfig ath0 up </VALUE> 
+						<VALUE> iwconfig ath0 channel 44 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+                    <PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 1 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+						<VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="powerSensorCalibrateZero"/>				
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+        <!-- Cable 2 - 2.4G (Ant-3) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 7e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi1 txchainmask 0x08 </VALUE>
+						<VALUE> iwpriv wifi1 rxchainmask 0x08 </VALUE>
+						<VALUE> iwconfig ath1 channel 1 </VALUE> 
+						<VALUE> ifconfig ath1 up </VALUE> 
+						<VALUE> iwconfig ath1 channel 6 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+        <!-- Cable 2 - 5G (Ant-0) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 44 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 1.5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi0 txchainmask 0x01 </VALUE>
+						<VALUE> iwpriv wifi0 rxchainmask 0x01 </VALUE>
+						<VALUE> iwconfig ath0 channel 36 </VALUE> 
+						<VALUE> ifconfig ath0 up </VALUE> 
+						<VALUE> iwconfig ath0 channel 44 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 2 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>				
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+        <!-- Cable 3 - 2.4G (Ant-2) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi1 txchainmask 0x04 </VALUE>
+						<VALUE> iwpriv wifi1 rxchainmask 0x04 </VALUE>
+						<VALUE> iwconfig ath1 channel 1 </VALUE> 
+						<VALUE> ifconfig ath1 up </VALUE> 
+						<VALUE> iwconfig ath1 channel 6 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+        <!-- Cable 3 - 5G (Ant-1) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 44 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 1.5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi0 txchainmask 0x02 </VALUE>
+						<VALUE> iwpriv wifi0 rxchainmask 0x02 </VALUE>
+						<VALUE> iwconfig ath0 channel 36 </VALUE> 
+						<VALUE> ifconfig ath0 up </VALUE> 
+						<VALUE> iwconfig ath0 channel 44 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 3 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>				
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+        <!-- Cable 4 - 2.4G (Ant-0) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+					<PARAM name="wifi_channel"> 6 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi1 txchainmask 0x01 </VALUE>
+						<VALUE> iwpriv wifi1 rxchainmask 0x01 </VALUE>
+						<VALUE> iwconfig ath1 channel 1 </VALUE> 
+						<VALUE> ifconfig ath1 up </VALUE> 
+						<VALUE> iwconfig ath1 channel 6 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 2.4G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath0 down </VALUE>
+                        <VALUE> ifconfig ath1 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>	
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+        
+        <!-- Cable 4 - 5G (Ant-3) -->
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<INIT_METHODS>
+				<METHOD name="configOSPRelays">
+					<PARAM name="antenna_number"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="configPowerSensor_NFT">
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+					<PARAM name="wifi_channel"> 44 </PARAM>
+					<PARAM name="timeslot_width"> 1e-5 </PARAM>
+					<PARAM name="timeslot_start"> 1.5e-6 </PARAM>
+					<PARAM name="timeslot_stop"> 0 </PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</INIT_METHODS>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> iwpriv wifi0 txchainmask 0x08 </VALUE>
+						<VALUE> iwpriv wifi0 rxchainmask 0x08 </VALUE>
+						<VALUE> iwconfig ath0 channel 36 </VALUE> 
+						<VALUE> ifconfig ath0 up </VALUE> 
+						<VALUE> iwconfig ath0 channel 44 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="pauseTestSequence">
+					<PARAM name="pause_time"> 2 </PARAM>
+				</METHOD>
+				<METHOD name="getRFMeasurements"/>
+				<METHOD name="nftTest">
+					<PARAM name="antenna_number"> 4 </PARAM>
+					<PARAM name="rf_band"> 5G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig ath1 down </VALUE>
+                        <VALUE> ifconfig ath0 down </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="powerSensorCalibrateZero"/>				
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+        
+		<TEST_SEQ cleanup="True">
+			<METHOD name="releaseResourceLock" />
+		</TEST_SEQ>
+
+	</TEST_SEQ_GRP>
+
+	<ACTION_ON_QUIT>  
+		<METHOD name="actionOnQuit" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
+
