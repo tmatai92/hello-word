@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<TS_PROFILE>
+      <TS_NAME>ITS3WN01-HK</TS_NAME>
+      <SERVER_ID> 0 </SERVER_ID>
+      <STRESS_TEST>
+            <ENABLED>YES</ENABLED>
+            <NUM_EXECUTION> 20 </NUM_EXECUTION>
+      </STRESS_TEST>
+      <PROD_GRP>
+		<PROD>
+			<NAME> A90v1 </NAME>
+			<SUB_DIR> A90v1 </SUB_DIR>
+			<DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+			<NUMBER_TESTBEDS>8</NUMBER_TESTBEDS>
+			<MAC_ENTRY>DISABLED</MAC_ENTRY> <!-- ENABLED/DISABLED: Enable or disable MAC address entry on GUI -->
+			<FW_ENTRY>ENABLED</FW_ENTRY> <!-- ENABLED/DISABLED: Enable or disable FW entry on GUI -->
+           	<SKU_SN_PREFIX> </SKU_SN_PREFIX>
+			<RGM_TEST_SUITE>suite_rgm.xml:suite_warranty.xml</RGM_TEST_SUITE>
+	      	<TEST_RESULT_DISPLAYS>
+				<DISPLAY error_code="PASS" color="Green" is_passed="True"/>
+				<DISPLAY error_code="IN_PASS" color="Green" is_passed="True"/>
+				<DISPLAY error_code="OUT_PASS" color="Green" is_passed="True"/>
+				<DISPLAY error_code="IN_FAIL" color="Red" is_passed="False"/>
+				<DISPLAY error_code="OUT_FAIL" color="Red" is_passed="False"/>
+				<DEFAULT color="Red" is_passed="False"/>
+			</TEST_RESULT_DISPLAYS>
+	      	<NEXT_SUITE_EXECUTION_BY_ERROR_CODE>
+			    <EXECUTION error_code="SYS_CRITICAL_ERR" execute_next_suite="False"/>
+			    <EXECUTION error_code="SYSTEM_ERROR" execute_next_suite="False"/>
+			    <DEFAULT execute_next_suite="True"/>
+	      	</NEXT_SUITE_EXECUTION_BY_ERROR_CODE>
+		</PROD>
+      </PROD_GRP>
+      <CONFIG_DIR>/opt/its3/TSLIB/config/TB</CONFIG_DIR>
+      <RESULT_DIR>/tmp/its3/test_results</RESULT_DIR>
+      <ATTENUATOR_VALUE>-10</ATTENUATOR_VALUE>
+      <FIXTURE_USAGE>
+            <SHOW_USAGE_COUNT>YES</SHOW_USAGE_COUNT>
+            <FIXTURE_COUNTER_DIR>/tmp/its3/cable_counter</FIXTURE_COUNTER_DIR>
+            <MAX_LIMIT>500</MAX_LIMIT>
+      </FIXTURE_USAGE>
+      <CORP_NETWORK>www.netgear.com</CORP_NETWORK>
+      <DUT_TEST_DATA>
+            <DUT_DIR>/tmp/its3/dut_test_data</DUT_DIR>
+      </DUT_TEST_DATA>
+      <CALIBRATION>
+            <ENABLED>NO</ENABLED>
+            <CALIBRATION_DIR>/tmp/its3/cal_data</CALIBRATION_DIR>
+            <MAX_LIMIT> 100 </MAX_LIMIT>
+      </CALIBRATION>
+      <GOLDEN_SAMPLE_DATA>
+            <GOLDEN_SAMPLE_DIR> /tmp/its3/golden_sample_data </GOLDEN_SAMPLE_DIR>
+      </GOLDEN_SAMPLE_DATA>
+      <DB_SERVER>
+            <IP_ADDR> 192.168.5.201 </IP_ADDR>
+            <USER> pte </USER>
+            <PASSWD> pte </PASSWD>
+            <DATABASE> its_db </DATABASE>
+            <ONLINE>YES</ONLINE>
+            <NUM_TRIES>3</NUM_TRIES>
+            <MONITORING_INTERVAL>30</MONITORING_INTERVAL>
+      </DB_SERVER>
+      <SHOP_FLOOR>
+            <IP_ADDR> 192.168.5.201 </IP_ADDR>
+            <USER> pte </USER>
+            <PASSWD> pte </PASSWD>
+            <DATABASE> its_db </DATABASE>
+            <STATION_TYPE>ITS3_WN</STATION_TYPE>
+            <ONLINE>NO</ONLINE>
+            <NUM_TRIES>3</NUM_TRIES>
+            <MONITORING_INTERVAL>30</MONITORING_INTERVAL>
+      </SHOP_FLOOR>
+</TS_PROFILE>

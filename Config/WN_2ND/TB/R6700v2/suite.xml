@@ -1,0 +1,294 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>	
+				<METHOD execute_once="True" name="startService">
+					<LIST_PARAM name="cmds">
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.211 8081
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.212 8082
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.213 8083
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.214 8084
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.215 8085
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.216 8086
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.217 8087
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.218 8088
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.219 8089
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.220 8090
+						</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="envs">
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+									/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_2 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.103 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> switch on TB switch port </PARAM>
+					<PARAM name="pause_time"> 5 </PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_3 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.104 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt"/>
+				<METHOD execute_once="True" name="switchOffReferenceDevices"/>
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> WiFi Client boot </PARAM>
+					<PARAM name="pause_time"> 40 </PARAM>
+				</METHOD>
+
+				<METHOD execute_once_tb="True" name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<VALUE> nvram set wl1_bandlist="ab" </VALUE>
+						<VALUE> nvram set wl0_mode="sta" </VALUE>
+						<VALUE> nvram set auth_time=442769 </VALUE>
+						<VALUE> nvram set wl_mode="sta" </VALUE>
+						<VALUE> nvram set wl1_mode="sta" </VALUE>
+						<VALUE> nvram set eth1_bridged=0 </VALUE>
+						<VALUE> nvram set eth2_bridged=0 </VALUE>
+						<!--<VALUE> nvram set wanup=0 </VALUE>
+						<VALUE> nvram set wl0_akm=disabled </VALUE>
+						<VALUE> nvram set wl1_akm=disabled </VALUE>-->
+						<VALUE> nvram commit </VALUE>
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 2 </PARAM>
+				</METHOD>
+
+				<METHOD name="switchOffDut" />
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT off </PARAM>
+					<PARAM name="pause_time"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<!--
+            <TEST_SEQ name="SN Duplication Test">
+                  <NORMAL_METHODS>
+                        <METHOD name="snDuplicateTest">
+                              <PARAM name="num_tries">3</PARAM>
+                        </METHOD>
+                  </NORMAL_METHODS>
+            </TEST_SEQ>
+            <TEST_SEQ name="MAC Duplication Test">
+                  <NORMAL_METHODS>
+                        <METHOD name="macDuplicateTest">
+                              <PARAM name="num_tries">3</PARAM>
+                        </METHOD>
+                  </NORMAL_METHODS>
+            </TEST_SEQ>
+			-->
+		<TEST_SEQ name="LAN Ports Test">
+			<NORMAL_METHODS>
+				<METHOD name="lanTest">
+					<PARAM name="num_tries">50</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>	
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="timeout"> 20 </PARAM>
+					<PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="fw_cmd"> cat /etc/version </PARAM>
+					<PARAM name="fw_pattern"> ([V]+[0-9._-]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="MAC Test">
+			<NORMAL_METHODS>
+				<METHOD name="macTest">
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="POT Info Test">
+			<NORMAL_METHODS>
+				<METHOD name="potInfoTest">			
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="pot_cmd">pot show_pot</PARAM>
+					<PARAM name="pot_minute_pattern">\d+</PARAM>
+					<PARAM name="ntp_cmd">pot show_ntp</PARAM>
+					<PARAM name="ntp_date_pattern">\d+</PARAM>
+					<LIST_PARAM name="ntp_not_set_values">
+						<VALUE> 4294967295 </VALUE>
+					</LIST_PARAM>
+					<PARAM name="sta_cmd">pot wlan_assoc</PARAM>
+					<PARAM name="sta_output_pattern"/>
+					<PARAM name="sta_pattern">(\w\w-\w\w-\w\w-\w\w-\w\w-\w\w)+</PARAM>
+					<LIST_PARAM name="mac_not_set_values">
+						<VALUE> 00-00-00-00-00-00 </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Wireless 2.4G Test">
+			<NORMAL_METHODS>
+				<METHOD name="wireless24GTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="wireless_mac_cmd_24g"> nvram get wifi_mac </PARAM>
+					<PARAM name="wireless_mac_pattern_24g"> (\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+ </PARAM>
+					<PARAM name="ssid_cmd_24g"> nvram get wifi_ssid </PARAM>
+					<PARAM name="ssid_pattern_24g"> =([a-zA-Z0-9._-]+) </PARAM>
+					<PARAM name="security_key_cmd_24g"> nvram get wifi_psk_pwd </PARAM>
+					<PARAM name="security_key_pattern_24g"> =([a-zA-Z0-9]+) </PARAM>
+					<PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Wireless 5G Test">
+			<NORMAL_METHODS>
+				<METHOD name="wireless5GTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="wireless_mac_cmd_5g"> nvram get wifi_mac1</PARAM>
+					<PARAM name="wireless_mac_pattern_5g"> (\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+</PARAM>
+					<PARAM name="ssid_cmd_5g"> nvram get wifi_ssid1 </PARAM>
+					<PARAM name="ssid_pattern_5g"> =([a-zA-Z0-9._-]+) </PARAM>
+					<PARAM name="security_key_cmd_5g"> nvram get wifi_psk_pwd1 </PARAM>
+					<PARAM name="security_key_pattern_5g"> =([a-zA-Z0-9]+) </PARAM>
+					<PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="USB Ports Test"> 
+			<NORMAL_METHODS>
+				<METHOD name="usbTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ls /mnt/shares </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="WAN Port Test">
+			<NORMAL_METHODS>
+				<METHOD name="wanTest">
+					<PARAM name="num_tries">30</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut"/>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts"/>
+		<METHOD name="switchOffReferenceDevices"/>
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

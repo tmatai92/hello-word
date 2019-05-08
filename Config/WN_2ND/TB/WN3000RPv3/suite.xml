@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_client </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="startService">
+					<LIST_PARAM name="cmds">
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.211 8081
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.212 8082
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.213 8083
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.214 8084
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.215 8085
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.216 8086
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.217 8087
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.218 8088
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.219 8089
+						</VALUE>
+						<VALUE> sudo python2.7 /opt/ProxyServer/twisted_proxy.py eth1.220 8090
+						</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="envs">
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+						<VALUE> PYTHONPATH =
+							/usr/lib64/python2.7:/usr/lib64/python2.7/lib:/usr/lib64/python2.7/site-packages
+						</VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_2 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.103 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> switch on TB switch port </PARAM>
+					<PARAM name="pause_time"> 5 </PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_3 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.104 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt"/>
+				<METHOD execute_once="True" name="switchOffReferenceDevices"/>
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="SN Duplication Test">
+			<NORMAL_METHODS>
+				<METHOD name="snDuplicateTest"/>
+				<PARAM name="num_tries"> 3 </PARAM>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="MAC Duplication Test">
+			<NORMAL_METHODS>
+				<METHOD name="macDuplicateTest"/>
+				<PARAM name="num_tries"> 3 </PARAM>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="LAN Ports Test">
+			<NORMAL_METHODS>
+				<METHOD name="lanTest">
+					<PARAM name="num_tries">50</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> webgui </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> webgui </PARAM>
+					<LIST_PARAM name="webpages">
+						<VALUE> currentsetting.htm </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="patterns">
+						<VALUE> Firmware=[\s=]*([a-zA-Z0-9._-]+) </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="MAC Test">
+			<NORMAL_METHODS>
+				<METHOD name="macTest">
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="wireless24GTest">
+			<NORMAL_METHODS>
+				<METHOD name="wireless24GTest">
+					<PARAM name="access_type">webgui</PARAM>
+					<PARAM name="num_tries">10</PARAM>
+					<PARAM name="ping_tries">20</PARAM>
+					<LIST_PARAM name="web_actions_1">
+						<VALUE>web_page:=new_extender_setup.html</VALUE>
+						<VALUE>(By.ID, "newUserName"):=admin@netgear.com</VALUE>
+						<VALUE>(By.ID, "newPwd"):=password</VALUE>
+						<VALUE>(By.ID, "newPwdVerify"):=password</VALUE>
+						<VALUE>(By.XPATH, "//select[@id='que1']/option[@value=1]"):=None</VALUE>
+						<VALUE>(By.ID, "ans1"):=admin</VALUE>
+						<VALUE>(By.XPATH, "//select[@id='que2']/option[@value=1]"):=None</VALUE>
+						<VALUE>(By.ID, "ans2"):=admin</VALUE>
+						<VALUE>(By.ID, "nextStep"):=None</VALUE>
+						<VALUE>wait_time:=5</VALUE>
+						<VALUE>get_session_id:=None</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="web_actions_2">
+						<VALUE>web_page:=ca_apclient_manual.htm</VALUE>
+						<VALUE>(By.ID, "wifi"):={ssid}</VALUE>
+						<VALUE>(By.XPATH, "//select[@id='type_id']/option[@value=1]"):=None</VALUE>
+						<VALUE>(By.XPATH, "//input[@onclick='return set_ap_security(document.forms[0],1)']"):=None</VALUE>
+						<VALUE>(By.XPATH, "//input[@onclick='return set_ap_security(document.forms[0],1)']"):=None</VALUE>
+						<VALUE>wait_time:=2</VALUE>
+						<VALUE>web_page:=ca_ap_settings.htm</VALUE>
+						<VALUE>(By.XPATH, "//input[@type='submit']"):=None</VALUE>
+						<VALUE>wait_time:=10</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="web_actions_3">
+						<VALUE>web_page:=ca_extender_manual.htm</VALUE>
+						<VALUE>(By.ID, "ssidMan"):={ssid}</VALUE>
+						<VALUE>(By.XPATH, "//select[@id='securityTypeMan']/option[@value=1]"):=None</VALUE>
+						<VALUE>(By.ID, "nextStep"):=None</VALUE>
+						<VALUE>wait_time:=2</VALUE>
+						<VALUE>(By.ID, "nextStep"):=None</VALUE>
+						<VALUE>wait_time:=20</VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<!--METHOD name="factoryReset_manual"/-->
+				<METHOD name="switchOffDut"/>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts"/>
+		<METHOD name="switchOffReferenceDevices"/>
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

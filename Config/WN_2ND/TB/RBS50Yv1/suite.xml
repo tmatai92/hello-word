@@ -1,0 +1,236 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_WIFI_CLIENT_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt" />
+				<METHOD execute_once="True" name="switchOffReferenceDevices" />
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> WiFi Clients boot up </PARAM>
+					<PARAM name="pause_time"> 40 </PARAM>
+				</METHOD>
+
+				<METHOD name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<!--<VALUE> wl disassoc </VALUE>-->
+						<VALUE> nvram set wl0_wds0="" </VALUE>
+						<VALUE> nvram set wl1_wds0="" </VALUE>
+						<VALUE> nvram set wl0_ssid="" </VALUE>
+						<VALUE> nvram set wl1_ssid="" </VALUE>
+						<VALUE> nvram commit </VALUE>
+						<VALUE> stopservice wlconf </VALUE>
+						<VALUE> startservice wlconf </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 2 </PARAM>
+				</METHOD>
+
+				<METHOD name="switchOffDut" />
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT off </PARAM>
+					<PARAM name="pause_time"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> False </PARAM>
+					<PARAM name="bootup_time"> 10 </PARAM>
+				</METHOD>
+
+
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT reboot </PARAM>
+					<PARAM name="pause_time"> 20 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 15 </PARAM>
+					<PARAM name="error_code"> WRLS_5G </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_reset.png</PARAM>
+					<PARAM name="message">Press Reset button on the DUT until the LED starts plashing then click &quot;OK&quot;</PARAM>
+				</METHOD>
+			</RECOVERY_METHODS>
+
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+
+				<METHOD name="getWirelessConfiguration">
+					<PARAM name="access_type">wifi_client</PARAM>
+
+					<PARAM name="ssid_cmd_24g">echo wl_iface</PARAM>
+					<PARAM name="ssid_pattern_24g">wl_iface</PARAM>
+					<PARAM name="wireless_mac_cmd_24g">ifconfig ath0</PARAM>
+					<PARAM name="wireless_mac_pattern_24g">(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+</PARAM>
+					<PARAM name="security_key_cmd_24g">echo OPEN</PARAM>
+					<PARAM name="security_key_pattern_24g">OPEN</PARAM>
+
+					<PARAM name="ssid_cmd_5g_2">echo wl_iface_bh</PARAM>
+					<PARAM name="ssid_pattern_5g_2">wl_iface_bh</PARAM>
+					<PARAM name="wireless_mac_cmd_5g_2">ifconfig ath2</PARAM>
+					<PARAM name="wireless_mac_pattern_5g_2">(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+</PARAM>
+					<PARAM name="security_key_cmd_5g_2">echo OPEN</PARAM>
+					<PARAM name="security_key_pattern_5g_2">OPEN</PARAM>
+				</METHOD>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="fw_cmd"> cat /firmware_version </PARAM>
+					<PARAM name="fw_pattern"> ([V0-9._-]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+				<METHOD name="potInfoTest">
+					<PARAM name="access_type">wifi_client</PARAM>
+
+					<PARAM name="pot_cmd">cat /var/pot_value</PARAM>
+					<PARAM name="pot_minute_pattern">\d+</PARAM>
+
+					<PARAM name="ntp_cmd">echo $(ntpst get)</PARAM>
+					<PARAM name="ntp_date_pattern">NTP synchronized date/time: ([A-Za-z0-9-]+)</PARAM>
+					<LIST_PARAM name="ntp_not_set_values">
+						<VALUE> 00-00-00 </VALUE>
+					</LIST_PARAM>
+
+					<!--PARAM name="sta_cmd">echo $(stamac get)</PARAM>
+					<PARAM name="sta_output_pattern"></PARAM>
+					<PARAM name="sta_pattern">(\w\w-\w\w-\w\w-\w\w-\w\w-\w\w)+</PARAM>
+					<LIST_PARAM name="mac_not_set_values">
+						<VALUE> 00-00-00-00-00-00 </VALUE>
+					</LIST_PARAM-->
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE>nvram set factory_mode=1</VALUE>
+						<VALUE>nvram commit</VALUE>
+						<VALUE>reboot</VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT reboot </PARAM>
+					<PARAM name="pause_time"> 120 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_sync.png</PARAM>
+					<PARAM name="message">Press Sync button on the DUT for 2 seconds then click &quot;OK&quot;</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 2 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="wireless24GTest">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="num_tries">5</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_sync.png</PARAM>
+					<PARAM name="message">Press Sync button on the DUT for 2 seconds then click &quot;OK&quot;</PARAM>
+				</METHOD>
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 2 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="wireless5GTest2">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="num_tries">5</PARAM>
+					<PARAM name="turn_radio_off_after_association">False</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_sync.png</PARAM>
+					<PARAM name="message">Press Sync button on the DUT for 2 seconds then click &quot;OK&quot;</PARAM>
+				</METHOD>
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 2 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_reset.png</PARAM>
+					<PARAM name="message">Press Reset button on the DUT until the LED starts plashing then click &quot;OK&quot;</PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT factory reset </PARAM>
+					<PARAM name="pause_time"> 10 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 2 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<!--<METHOD name="sendCmds">
+					  <PARAM name="access_type">wifi_client</PARAM>
+					  <LIST_PARAM name="cmds">
+						<VALUE>config default</VALUE>
+						<VALUE>config commit</VALUE>
+					  </LIST_PARAM>
+            <PARAM name="num_tries">2</PARAM>
+				</METHOD>-->
+				<METHOD name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<!--<VALUE> wl disassoc </VALUE>-->
+						<VALUE> nvram set wl0_wds0="" </VALUE>
+						<VALUE> nvram set wl1_wds0="" </VALUE>
+						<VALUE> nvram set wl0_ssid="" </VALUE>
+						<VALUE> nvram set wl1_ssid="" </VALUE>
+						<VALUE> nvram commit </VALUE>
+						<VALUE> stopservice wlconf </VALUE>
+						<VALUE> startservice wlconf </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries">2</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<!--<RECOVERY_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="image">press_sync.png</PARAM>
+					<PARAM name="message">Press Sync button on the DUT for 2 seconds then click &quot;OK&quot;</PARAM>
+				</METHOD>
+			  </RECOVERY_METHODS>-->
+		</TEST_SEQ>
+
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

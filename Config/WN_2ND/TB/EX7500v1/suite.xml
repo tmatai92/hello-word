@@ -1,0 +1,206 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_WIFI_CLIENT_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt" />
+				<METHOD execute_once="True" name="switchOffReferenceDevices" />
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> WiFi Clients boot up </PARAM>
+					<PARAM name="pause_time"> 40 </PARAM>
+				</METHOD>
+
+				<METHOD name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<!--<VALUE> wl disassoc </VALUE>-->
+						<VALUE> nvram set wl0_wds0="" </VALUE>
+						<VALUE> nvram set wl1_wds0="" </VALUE>
+						<VALUE> nvram set wl0_ssid="" </VALUE>
+						<VALUE> nvram set wl1_ssid="" </VALUE>
+						<VALUE> nvram commit </VALUE>
+						<VALUE> stopservice wlconf </VALUE>
+						<VALUE> startservice wlconf </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD execute_once_tb="True" name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<VALUE> nvram set wl1_bandlist="ba" </VALUE>
+						<VALUE> nvram set wl0_mode="wet" </VALUE>
+						<VALUE> nvram set auth_time=442769 </VALUE>
+						<VALUE> nvram set wl_mode="wet" </VALUE>
+						<VALUE> nvram set wl1_mode="wet" </VALUE>
+						<VALUE> nvram set eth1_bridged=1 </VALUE>
+						<VALUE> nvram set eth2_bridged=1 </VALUE>
+						<VALUE> nvram set wanup=0 </VALUE>
+						<VALUE> nvram set wl0_akm=disabled </VALUE>
+						<VALUE> nvram set wl1_akm=disabled </VALUE>
+						<VALUE> nvram set autoap_findopen="0" </VALUE>
+						<VALUE> wl roam_scan_period 36000 </VALUE>
+						<VALUE> nvram commit </VALUE>
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> False </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+					<PARAM name="error_code"> WRLS_24G </PARAM>
+				</METHOD>
+
+				<METHOD name="getWirelessConfiguration">
+					<PARAM name="access_type">wifi_client</PARAM>
+
+					<PARAM name="security_key_pattern_5g">'(.*)\\r'</PARAM>
+					<PARAM name="wireless_mac_cmd_5g">ifconfig ath1</PARAM>
+					<PARAM name="wireless_mac_pattern_5g">(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+</PARAM>
+					<PARAM name="ssid_pattern_5g">[A-Z0-9a-z_]+</PARAM>
+					<PARAM name="ssid_cmd_5g">nvram get wlg_ssid</PARAM>
+					<PARAM name="security_key_cmd_5g"> nvram get wl_wpa_psk </PARAM>
+
+					<PARAM name="security_key_pattern_5g_2">'(.*)\\r'</PARAM>
+					<PARAM name="wireless_mac_cmd_5g_2">ifconfig ath2</PARAM>
+					<PARAM name="wireless_mac_pattern_5g_2">(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)+</PARAM>
+					<PARAM name="ssid_pattern_5g_2">[A-Z0-9a-z_]+</PARAM>
+					<PARAM name="ssid_cmd_5g_2">nvram get wlh_ssid</PARAM>
+					<PARAM name="security_key_cmd_5g_2"> nvram get wl_wpa_psk </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> wifi_client </PARAM>
+					<PARAM name="fw_cmd"> routerinfo </PARAM>
+					<PARAM name="fw_pattern"> /([V0-9._-]+)/ </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+
+				<METHOD name="sendCmds">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE>ifconfig ath1 up</VALUE>
+						<VALUE>ifconfig ath1</VALUE>
+						<VALUE>ifconfig ath2 up</VALUE>
+						<VALUE>ifconfig ath2</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_outputs">
+						<VALUE> None </VALUE>
+						<VALUE> UP BROADCAST RUNNING </VALUE>
+						<VALUE> None </VALUE>
+						<VALUE> UP BROADCAST RUNNING </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="POT Info Test">
+			<NORMAL_METHODS>
+				<METHOD name="potInfoTest">
+					<PARAM name="access_type">wifi_client</PARAM>
+
+					<PARAM name="pot_cmd">nvram get potValue</PARAM>
+					<PARAM name="pot_minute_pattern">\d+</PARAM>
+
+					<PARAM name="ntp_cmd">nvram show | grep ntp_sync_time</PARAM>
+					<PARAM name="ntp_date_pattern">ntp_sync_time=(\d+)</PARAM>
+					<PARAM name="ntp_number_pattern">ntp_sync_time=(\d+)</PARAM>
+
+					<PARAM name="sta_cmd">nvram show | grep access_mac_record</PARAM>
+					<PARAM name="sta_pattern">access_mac_record=([0-9A-Z\-]{17})</PARAM>
+
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="wireless5GTest">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE>ifconfig ath1 up</VALUE>
+						<VALUE>ifconfig ath1</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_outputs">
+						<VALUE> None </VALUE>
+						<VALUE> UP BROADCAST RUNNING </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<TEST_SEQ_TRIES> 3 </TEST_SEQ_TRIES>
+			<NORMAL_METHODS>
+				<METHOD name="wireless5GTest2">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+			<RECOVERY_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type">wifi_client</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE>ifconfig ath2 up</VALUE>
+						<VALUE>ifconfig ath2</VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_outputs">
+						<VALUE> None </VALUE>
+						<VALUE> UP BROADCAST RUNNING </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</RECOVERY_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<!--<VALUE> wl disassoc </VALUE>-->
+						<VALUE> nvram set wl0_wds0="" </VALUE>
+						<VALUE> nvram set wl1_wds0="" </VALUE>
+						<VALUE> nvram set wl0_ssid="" </VALUE>
+						<VALUE> nvram set wl1_ssid="" </VALUE>
+						<VALUE> nvram commit </VALUE>
+						<VALUE> stopservice wlconf </VALUE>
+						<VALUE> startservice wlconf </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
