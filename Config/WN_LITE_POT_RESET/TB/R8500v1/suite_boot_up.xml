@@ -1,0 +1,415 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+	
+	
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_2 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.103 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> switch on TB switch port </PARAM>
+					<PARAM name="pause_time"> 5 </PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_3 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.104 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt" />
+				<METHOD execute_once="True" name="switchOffReferenceDevices" />
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		
+		<TEST_SEQ name="Boot Up Test #1">
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+				
+				<METHOD name="initSkuAccessIntf">
+				    <PARAM name="access_type"> telnet </PARAM>
+				    <PARAM name="timeout"> 20 </PARAM>
+				    <PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+				
+				<METHOD name="rgmTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="rgm_test_name">Boot Up Test #1</PARAM>
+					<PARAM name="error_code">BOOT_UP</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig eth1 </VALUE>
+						<VALUE> ifconfig eth2 </VALUE>
+						<VALUE> ifconfig eth3 </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+						<VALUE> wl -i eth2 isup </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_patterns">
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_expressions"> <!-- Should use "output_str" as parameter -->
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; -1 and int(output_str) &lt; 16 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 14 and int(output_str) &lt; 101 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 99 and int(output_str) &lt; 166 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		
+		<TEST_SEQ name="Boot Up Test #2">
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+				
+				<METHOD name="initSkuAccessIntf">
+				    <PARAM name="access_type"> telnet </PARAM>
+				    <PARAM name="timeout"> 20 </PARAM>
+				    <PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+				
+				<METHOD name="rgmTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="rgm_test_name">Boot Up Test #2</PARAM>
+					<PARAM name="error_code">BOOT_UP</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig eth1 </VALUE>
+						<VALUE> ifconfig eth2 </VALUE>
+						<VALUE> ifconfig eth3 </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+						<VALUE> wl -i eth2 isup </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_patterns">
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_expressions"> <!-- Should use "output_str" as parameter -->
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; -1 and int(output_str) &lt; 16 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 14 and int(output_str) &lt; 101 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 99 and int(output_str) &lt; 166 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Boot Up Test #3">
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+				
+				<METHOD name="initSkuAccessIntf">
+				    <PARAM name="access_type"> telnet </PARAM>
+				    <PARAM name="timeout"> 20 </PARAM>
+				    <PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+				
+				<METHOD name="rgmTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="rgm_test_name">Boot Up Test #3</PARAM>
+					<PARAM name="error_code">BOOT_UP</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig eth1 </VALUE>
+						<VALUE> ifconfig eth2 </VALUE>
+						<VALUE> ifconfig eth3 </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+						<VALUE> wl -i eth2 isup </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_patterns">
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_expressions"> <!-- Should use "output_str" as parameter -->
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; -1 and int(output_str) &lt; 16 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 14 and int(output_str) &lt; 101 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 99 and int(output_str) &lt; 166 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>		
+
+		<TEST_SEQ name="Boot Up Test #4">
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+				
+				<METHOD name="initSkuAccessIntf">
+				    <PARAM name="access_type"> telnet </PARAM>
+				    <PARAM name="timeout"> 20 </PARAM>
+				    <PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+				
+				<METHOD name="rgmTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="rgm_test_name">Boot Up Test #4</PARAM>
+					<PARAM name="error_code">BOOT_UP</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig eth1 </VALUE>
+						<VALUE> ifconfig eth2 </VALUE>
+						<VALUE> ifconfig eth3 </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+						<VALUE> wl -i eth2 isup </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_patterns">
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_expressions"> <!-- Should use "output_str" as parameter -->
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; -1 and int(output_str) &lt; 16 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 14 and int(output_str) &lt; 101 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 99 and int(output_str) &lt; 166 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Boot Up Test #5">
+			<NORMAL_METHODS>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+				
+				<METHOD name="initSkuAccessIntf">
+				    <PARAM name="access_type"> telnet </PARAM>
+				    <PARAM name="timeout"> 20 </PARAM>
+				    <PARAM name="num_tries"> 10 </PARAM>
+				</METHOD>
+				
+				<METHOD name="rgmTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="rgm_test_name">Boot Up Test #5</PARAM>
+					<PARAM name="error_code">BOOT_UP</PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> ifconfig eth1 </VALUE>
+						<VALUE> ifconfig eth2 </VALUE>
+						<VALUE> ifconfig eth3 </VALUE>
+						<VALUE> wl -i eth1 isup </VALUE>
+						<VALUE> wl -i eth2 isup </VALUE>
+						<VALUE> wl -i eth3 isup </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth1 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth2 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+						<VALUE> wl -i eth3 status | grep channel </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_patterns">
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+						<VALUE> </VALUE>
+						<VALUE> Primary channel: ([0-9]+) </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verification_expressions"> <!-- Should use "output_str" as parameter -->
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "Device not found" not in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "0" in output_str or "1" in output_str </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; -1 and int(output_str) &lt; 16 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 14 and int(output_str) &lt; 101 </VALUE>
+						<VALUE> "Primary channel" in output_str </VALUE>
+						<VALUE> int(output_str) &gt; 99 and int(output_str) &lt; 166 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
