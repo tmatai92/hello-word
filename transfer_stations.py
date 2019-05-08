@@ -53,7 +53,7 @@ class Centralize:
 
 	def main(self, server, username, password, port, folder):
 		self.execute()
-		source_path = 'D:/service_328/sources'
+		source_path = '{path}/sources'.format(APP_DIR)
 		remote_tmp_path = '/opt/its3/TSLIB/tmp'
 		working_path = '/opt/its3/TSLIB'
 		ssh = paramiko.SSHClient()
