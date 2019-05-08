@@ -3,6 +3,7 @@ import os
 import sys
 import datetime
 import urllib.request
+import shutil
 from re import sub
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
