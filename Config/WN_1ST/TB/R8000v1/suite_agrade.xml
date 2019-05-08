@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> FeaturesBase </MODULE>
+	<TEST_TYPE> A_GRADE </TEST_TYPE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="aGradeCheck">
+					<PARAM name="fw"> V1.0.4.2 </PARAM>
+					<PARAM name="require_pot_check"> True </PARAM>               
+					<PARAM name="require_ntpsync_check"> True </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>
+

@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_client </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_VMB_2 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.103 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> switch on TB switch port </PARAM>
+					<PARAM name="pause_time"> 5 </PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_VMB_3 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.104 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_VMB_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt" />
+				<METHOD execute_once="True" name="switchOffReferenceDevices" />
+				<METHOD name="switchOnReferenceDevices" execute_once="True" />
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> False </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="dutIPAddressDectection">
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> turning on WAN Port LED </PARAM>
+					<PARAM name="pause_time"> 90 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="sendGUI_OperatorInstruction">
+					<PARAM name="message"> Wait until the WAN Port LED on Then press and hold the SYNC button for 20 seconds  </PARAM>
+					<PARAM name="image"> boot_up.jpg </PARAM>
+					<PARAM name="error_code"> LED </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet_ssh </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> telnet_ssh </PARAM>
+					<PARAM name="fw_cmd"> PATH=$PATH:/usr/sbin:/sbin vzdaemon --version </PARAM>
+					<PARAM name="fw_pattern"> ([V0-9._-]+) </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="sendCmds">
+					<PARAM name="access_type"> telnet_ssh </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE>PATH=$PATH:/usr/sbin:/sbin lm48560_cli write shutdown 0x1</VALUE>
+					</LIST_PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="Audio Playback Calibration Test">
+			<NORMAL_METHODS>
+				<METHOD name="audioPlaybackCalTest">
+					<LIST_PARAM name="audio_playback_cmds">
+						<VALUE>PATH=$PATH:/usr/sbin:/sbin lm48560_cli signal on frequency 0x2B duration 5</VALUE>
+					</LIST_PARAM>
+					<PARAM name="access_type">telnet_ssh</PARAM>
+					<PARAM name="num_tries">3</PARAM>
+					<PARAM name="magnitude_trigger_level">50</PARAM>
+					<PARAM name="ref_magnitude_trigger_level">50</PARAM>
+					<PARAM name="freq_trigger_level">3500</PARAM>
+					<PARAM name="end_frequency">4500</PARAM>
+					<PARAM name="freq_threshold">400</PARAM>
+					<PARAM name="wait_time">5</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

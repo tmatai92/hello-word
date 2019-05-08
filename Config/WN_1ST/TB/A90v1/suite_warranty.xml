@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE>Features_wifi_router</MODULE>
+	<TEST_TYPE> WARRANTY </TEST_TYPE>
+	<TEST_SEQ_NUM_TRIES>1</TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuMgmt" />
+				<METHOD name="warrantyTest" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

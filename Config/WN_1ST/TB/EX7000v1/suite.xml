@@ -1,0 +1,303 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_2 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.103 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOnPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> switch on TB switch port </PARAM>
+					<PARAM name="pause_time"> 5 </PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_3 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.104 </VALUE>
+						<VALUE> 169.254.100.100 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="switchOffPorts_TBSwitch">
+					<LIST_PARAM name="ports">
+						<VALUE> 3 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt" />
+				<METHOD execute_once="True" name="switchOffReferenceDevices" />
+				<METHOD execute_once="True" name="switchOnReferenceDevices" />
+				<METHOD execute_once="True" name="pauseTestSequence">
+					<PARAM name="msg"> WiFi Client boot </PARAM>
+					<PARAM name="pause_time"> 40 </PARAM>
+				</METHOD>
+
+				<METHOD execute_once_tb="True" name="sendCmdsToWifiClient">
+					<LIST_PARAM name="cmds">
+						<VALUE> nvram set wl1_bandlist="ab" </VALUE>
+						<VALUE> nvram set wl0_mode="sta" </VALUE>
+						<VALUE> nvram set auth_time=442769 </VALUE>
+						<VALUE> nvram set wl_mode="sta" </VALUE>
+						<VALUE> nvram set wl1_mode="sta" </VALUE>
+						<VALUE> nvram set eth1_bridged=0 </VALUE>
+						<VALUE> nvram set eth2_bridged=0 </VALUE>
+						<!--<VALUE> nvram set wanup=0 </VALUE>
+						<VALUE> nvram set wl0_akm=disabled </VALUE>
+						<VALUE> nvram set wl1_akm=disabled </VALUE>-->
+						<VALUE> nvram commit </VALUE>
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 2 </PARAM>
+				</METHOD>
+
+				<METHOD name="switchOffDut" />
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> DUT off </PARAM>
+					<PARAM name="pause_time"> 4 </PARAM>
+				</METHOD>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="SN Duplication Test">
+			<NORMAL_METHODS>
+				<METHOD name="snDuplicateTest">
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="MAC Duplication Test">
+			<NORMAL_METHODS>
+				<METHOD name="macDuplicateTest">
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="LAN Ports Test">
+			<NORMAL_METHODS>
+				<METHOD name="lanTest">
+					<PARAM name="num_tries">50</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ name="MAC Test">
+			<NORMAL_METHODS>
+				<METHOD name="macTest">
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="skuIntfAccessTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="fw_cmd"> routerinfo </PARAM>
+					<PARAM name="fw_pattern"> /([V0-9._-]+)/ </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<!--<TEST_SEQ name="POT Test">
+			<NORMAL_METHODS>
+					<METHOD name="potTest">
+					<PARAM name="access_type">telnet</PARAM>
+					<PARAM name="cmd">nvram get potValue</PARAM>
+					<PARAM name="minute_pattern">([0-9]+)</PARAM>
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			  </NORMAL_METHODS>
+		</TEST_SEQ>-->
+
+		<TEST_SEQ name="POT Info Test">
+			<NORMAL_METHODS>
+				<METHOD name="potInfoTest">
+					<PARAM name="access_type">telnet</PARAM>
+
+					<PARAM name="pot_cmd">nvram get potValue</PARAM>
+					<PARAM name="pot_minute_pattern">\d+</PARAM>
+
+					<PARAM name="ntp_cmd">nvram show | grep ntp_sync_time</PARAM>
+					<PARAM name="ntp_date_pattern">ntp_sync_time=(\d+)</PARAM>
+					<PARAM name="ntp_number_pattern">ntp_sync_time=(\d+)</PARAM>
+
+					<PARAM name="sta_cmd">nvram show | grep access_mac_record</PARAM>
+					<PARAM name="sta_pattern">access_mac_record=([0-9A-Z\-]{17})</PARAM>
+
+					<PARAM name="num_tries">3</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="setWirelessConfiguration">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="set_cmds">
+						<VALUE> nvram set wl_rpt_wlanstate1=Enable </VALUE>
+						<VALUE> nvram set wl_rpt_wlanstate2=Enable </VALUE>
+						<VALUE> nvram set wla_ssid_2={ssid_24g} </VALUE>
+						<VALUE> nvram set wlg_ssid_2={ssid_5g} </VALUE>
+						<VALUE> nvram set wla_ssid={ssid_24g} </VALUE>
+						<VALUE> nvram set wlg_ssid={ssid_5g} </VALUE>
+						<VALUE> nvram set enable_ap_mode=1 </VALUE>
+						<VALUE> nvram commit </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verify_cmds">
+						<VALUE> nvram get wl_rpt_wlanstate1 </VALUE>
+						<VALUE> nvram get wl_rpt_wlanstate2 </VALUE>
+						<VALUE> nvram get wla_ssid_2 </VALUE>
+						<VALUE> nvram get wlg_ssid_2 </VALUE>
+						<VALUE> nvram get wla_ssid </VALUE>
+						<VALUE> nvram get wlg_ssid </VALUE>
+						<VALUE> nvram get enable_ap_mode </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="verify_output">
+						<VALUE> Enable </VALUE>
+						<VALUE> Enable </VALUE>
+						<VALUE> {ssid_24g} </VALUE>
+						<VALUE> {ssid_5g} </VALUE>
+						<VALUE> {ssid_24g} </VALUE>
+						<VALUE> {ssid_5g} </VALUE>
+						<VALUE> 1 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="reboot_cmds">
+						<VALUE> reboot </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="pauseTestSequence">
+					<PARAM name="msg"> Wait for DUT to complete reboot </PARAM>
+					<PARAM name="pause_time"> 30 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="wireless24GTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="wireless5GTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<PARAM name="num_tries"> 20 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="initSkuAccessIntf">
+					<PARAM name="access_type"> soap </PARAM>
+					<PARAM name="timeout"> 10 </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="USB Ports Test">
+			<NORMAL_METHODS>
+				<METHOD name="usbTest">
+					<PARAM name="access_type"> soap </PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<!-- <TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="usbTest">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="cmds">
+						<VALUE> cat tmp/usb_vol_name/sda1 </VALUE>
+					</LIST_PARAM>
+					<PARAM name="num_tries"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ> -->
+
+		<!--<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD name="factoryReset">
+					<PARAM name="access_type"> telnet </PARAM>
+					<LIST_PARAM name="reset_cmds">
+						<VALUE> restore_bin </VALUE>
+					</LIST_PARAM>
+					<PARAM name="wait_time"> 3 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>-->
+
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+		<METHOD name="switchOffReferenceDevices" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

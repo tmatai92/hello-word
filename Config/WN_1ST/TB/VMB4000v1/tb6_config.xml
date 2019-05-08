@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <L2_SWITCH>
+        <IP_ADDR> 192.168.2.103 </IP_ADDR>
+        <LAN_PORT_GRP>
+            <PORT>41</PORT>
+        </LAN_PORT_GRP>
+    </L2_SWITCH>
+    <POWERRELAY>
+        <PORT_GRP>
+            <DUT_PORT> 6 </DUT_PORT>
+        </PORT_GRP>
+    </POWERRELAY>
+    <RESOURCE_LOCK>1</RESOURCE_LOCK>
+    <DUT>
+        <INF_IP_ADDR> 192.168.216.101 </INF_IP_ADDR>
+        <DUT_DATA_INF> eth1.216 </DUT_DATA_INF>
+        <DUT_MGMT_INF> eth1.216 </DUT_MGMT_INF>
+    </DUT>
+    <WIFI_CLIENT>
+        <WIFI_CLIENT_IP_ADDR> 192.168.4.216 </WIFI_CLIENT_IP_ADDR>
+        <WIFI_CLIENT_INTF_ADDR> 192.168.4.110 </WIFI_CLIENT_INTF_ADDR>
+    </WIFI_CLIENT>
+    <DHCP_SERVER>
+        <DHCP_MGMT_ADDR>192.168.216.1</DHCP_MGMT_ADDR>
+        <IP_ADDR_RANGE>
+            <START>192.168.216.120</START>
+            <END>192.168.216.122</END>
+        </IP_ADDR_RANGE>
+    </DHCP_SERVER>
+    <USB>
+        <SOUND_CARD>
+            <USB_PORT_ID> COM6 </USB_PORT_ID>
+        </SOUND_CARD>
+    </USB>
+</TEST_CONFIG>
