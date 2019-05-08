@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEST_CONFIG>
+    <L2_SWITCH>
+        <IP_ADDR> 192.168.2.102 </IP_ADDR>
+        <WIFI_ROUTER_PORT> 10 </WIFI_ROUTER_PORT>
+    </L2_SWITCH>
+    
+    <POWERRELAYS>
+    	<DUT_POWERRELAY dut_power_type="12VDC">
+    		<IP_ADDR> 192.168.2.112 </IP_ADDR>
+    	</DUT_POWERRELAY>
+    	
+    	<DUT_POWERRELAY dut_power_type="19VDC">
+    		<IP_ADDR> 192.168.2.113 </IP_ADDR>
+    	</DUT_POWERRELAY>
+    	
+    	<COMPONENT_POWERRELAY>
+    		<IP_ADDR> 192.168.2.111 </IP_ADDR>
+    		<PORTS>
+    			<WIFI-CLIENTS>1</WIFI-CLIENTS>
+    		</PORTS>
+    	</COMPONENT_POWERRELAY>
+    	
+    </POWERRELAYS>
+    
+    <DUT>
+        <DUT_MGMT_USER> admin </DUT_MGMT_USER>
+        <DUT_MGMT_PW> password </DUT_MGMT_PW>
+        <WLAN_24G_MAC_OFFSET> -1 </WLAN_24G_MAC_OFFSET>
+        <WLAN_5G_MAC_OFFSET> -1 </WLAN_5G_MAC_OFFSET>
+        <WLAN_5G_2_MAC_OFFSET> 1 </WLAN_5G_2_MAC_OFFSET>
+        <SUFFIX_5G> -5G-1 </SUFFIX_5G>
+        <SUFFIX_5G_2> -5G-2 </SUFFIX_5G_2>
+        <MAC_OFFSET> 0 </MAC_OFFSET>
+        <CM_MAC_OFFSET> 0 </CM_MAC_OFFSET>
+        <TELNET_LOGIN_PROMPT> login: </TELNET_LOGIN_PROMPT>
+        <TELNET_PW_PROMPT> Password: </TELNET_PW_PROMPT>
+        <TELNET_CMD_PROMPT> # </TELNET_CMD_PROMPT>
+        <TELNET_TERMINATION_PROMPT>\n</TELNET_TERMINATION_PROMPT>
+         <TELNET_ENABLE_TOOLS> 
+            <TOOL>telnetenable.py</TOOL>
+        </TELNET_ENABLE_TOOLS>
+        <SOCKET_PORT> 3333 </SOCKET_PORT>
+    </DUT>
+
+	<USB>
+		<USB_DRV_GRP>
+			<USB_DRV> ITS3-USB </USB_DRV>	
+		</USB_DRV_GRP>
+	</USB>
+    <WIFI_CLIENT>
+		<WIFI_CLIENT_USER> root </WIFI_CLIENT_USER>
+		<WIFI_CLIENT_PW> password </WIFI_CLIENT_PW>
+    </WIFI_CLIENT>
+    
+    <DHCP_SERVER>
+        <DHCP_MGMT_ADDR>192.168.3.1</DHCP_MGMT_ADDR>
+    </DHCP_SERVER>
+    
+</TEST_CONFIG>
