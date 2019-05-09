@@ -1,5 +1,7 @@
 1. Push configuration to github Netgear
 
+	test git commit
+
 2. SSH and deploy from Jenkins to stations
 
    - Directions:
