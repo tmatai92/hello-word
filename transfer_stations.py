@@ -68,7 +68,7 @@ class Centralize:
 			ftp_client.stat(remote_tmp_path)
 		except FileNotFoundError:
 			ftp_client.mkdir(remote_tmp_path)
-			ftp_client.mkdir(working_path)
+			pass
 		ftp_client.put(os.path.join(source_path,'%s.tar'%folder), '{tmp_path}/{folder}.tar'.format(tmp_path = remote_tmp_path, folder = folder))
 		ftp_client.close()
 		try:
