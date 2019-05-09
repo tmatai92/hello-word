@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<TEST_SUITE>
+	<MODULE> Features_wifi_router </MODULE>
+	<TEST_TYPE>POT_READ</TEST_TYPE>
+	<TEST_SEQ_NUM_TRIES> 1 </TEST_SEQ_NUM_TRIES>
+	<TEST_SEQ_GRP>
+		<TEST_SEQ>
+			<NORMAL_METHODS>
+				<METHOD execute_once="True" name="config_TBSwitch">
+					<PARAM name="conf_script_file"> ITS3_TESTBED_SW_CNFG_POT_RESET_1 </PARAM>
+					<LIST_PARAM name="addrs">
+						<VALUE> 192.168.2.102 </VALUE>
+					</LIST_PARAM>
+				</METHOD>
+				<METHOD name="initSkuMgmt"/>
+				<METHOD name="switchOnDut">
+					<PARAM name="ping"> True </PARAM>
+					<PARAM name="bootup_time"> 45 </PARAM>
+				</METHOD>
+
+				<METHOD name="initSkuAccessIntf" >
+					<PARAM name="access_type"> snmp </PARAM>
+					<PARAM name="timeout"> 3 </PARAM>
+					<PARAM name="num_tries"> 15 </PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+		
+		<TEST_SEQ name="POT Test">
+			<NORMAL_METHODS>
+				<METHOD name="potTest">
+					<PARAM name="access_type">snmp</PARAM>
+					<PARAM name="cmd">get</PARAM>
+					<PARAM name="oid">1.3.6.1.4.1.17084.99.19.0</PARAM>
+					<PARAM name="value">None</PARAM>
+					<PARAM name="value_type">OctetString</PARAM>
+					<PARAM name="community">public</PARAM>
+					<PARAM name="minute_pattern">([0-9]+)</PARAM>
+					<PARAM name="num_tries">10</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ name="Cable Online Test">
+			<NORMAL_METHODS>
+				<METHOD name="cableOnlineInfoTest">
+					<PARAM name="access_type">snmp</PARAM>
+					<PARAM name="cmd">get_next</PARAM>
+					<LIST_PARAM name="oids">
+						<VALUE> 1.3.6.1.4.1.4413.2.2.2.1.9.1.3.2.1.4.1.3.6.1.4.1.4413.2.2.2.1.2.4.1 </VALUE>
+						<VALUE> 1.3.6.1.4.1.4413.2.2.2.1.9.1.3.2.1.4.1.3.6.1.4.1.4413.2.2.2.1.9.1.3.1.1.2 </VALUE>
+					</LIST_PARAM>
+					<LIST_PARAM name="not_set_pattern_all_lines">
+						<VALUE> (?=.*walledgarden|10.90.200.10) </VALUE>
+						<!-- all output lines MUST contain the "walledgarden"-->
+						<VALUE> ^((?!(?:Resetting due to HTTP forced reset|Resetting due to reset switch)).)*$ </VALUE>
+						<!--all output lines MUST not contain "Resetting..."-->
+					</LIST_PARAM>
+					<PARAM name="community">private</PARAM>
+					<PARAM name="num_tries">10</PARAM>
+				</METHOD>
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+
+		<TEST_SEQ cleanup="True">
+			<NORMAL_METHODS>
+				<METHOD name="switchOffDut" />
+			</NORMAL_METHODS>
+		</TEST_SEQ>
+	</TEST_SEQ_GRP>
+	<ACTION_ON_QUIT>
+		<METHOD name="switchOffAllDuts" />
+	</ACTION_ON_QUIT>
+</TEST_SUITE>

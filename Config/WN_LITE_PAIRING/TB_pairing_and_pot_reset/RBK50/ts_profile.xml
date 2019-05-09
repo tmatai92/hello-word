@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TS_PROFILE>
+   <TS_NAME>ITS3WN_LITE01-HK</TS_NAME>
+   <SERVER_ID>0</SERVER_ID>
+   <STRESS_TEST>
+      <ENABLED>NO</ENABLED>
+      <NUM_EXECUTION>20</NUM_EXECUTION>
+   </STRESS_TEST>
+   <PROD_GRP>
+      <PROD>
+         <!-- Orbit Desktop Pairing + POT Reset -->
+         <NAME>RBK50</NAME>
+         <SUB_DIR>RBK50</SUB_DIR>
+         <TEST_CONFIGURATIONS>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBR50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PM:4RT:4S1:4S2:4S3</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_init.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBS50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PN:4RN:4RP:4RR:4RS:4S4:4UX:4X5:4XF</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_init.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBR50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PM:4RT:4S1:4S2:4S3</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_pairing.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBS50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PN:4RN:4RP:4RR:4RS:4S4:4UX:4X5:4XF</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_pairing.xml</RGM_TEST_SUITE>
+               <CAL_TEST_SUITE />
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBR50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PM:4RT:4S1:4S2:4S3</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_verification.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBR50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PM:4RT:4S1:4S2:4S3</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_pot_reset.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBS50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PN:4RN:4RP:4RR:4RS:4S4:4UX:4X5:4XF</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_verification.xml</RGM_TEST_SUITE>
+            </TEST_CONFIG>
+            <TEST_CONFIG>
+               <DUT_POWER_TYPE>12VDC</DUT_POWER_TYPE>
+               <CHILD_SUB_DIR>RBS50</CHILD_SUB_DIR>
+               <SKU_SN_PREFIX>4PN:4RN:4RP:4RR:4RS:4S4:4UX:4X5:4XF</SKU_SN_PREFIX>
+               <RGM_TEST_SUITE>suite_pot_reset.xml</RGM_TEST_SUITE>
+               <CAL_TEST_SUITE />
+            </TEST_CONFIG>
+         </TEST_CONFIGURATIONS>
+         <QR_CODE>
+            <SEPARATOR_LIST>
+               <SEPARATOR>,</SEPARATOR>
+            </SEPARATOR_LIST>
+            <QR_CODE_ITEMS>
+               <QR_CODE_ITEM name="SN" validation="SerialNumService" />
+               <QR_CODE_ITEM name="MAC" validation="MACAddressService" />
+               <QR_CODE_ITEM name="SSID" validation="ORBI[0-9]+" />
+               <QR_CODE_ITEM name="PWD" validation=".*ORBI[0-9]+,([a-zA-Z0-9]+),.*" full_string_pattern="True" />
+            </QR_CODE_ITEMS>
+            <!--<ITEMS>SN:MAC:SSID:PWD</ITEMS>-->
+         </QR_CODE>
+         <NUMBER_TESTBEDS>5</NUMBER_TESTBEDS>
+         <AUTO_START>Yes</AUTO_START>
+         <MAC_ENTRY>ENABLED</MAC_ENTRY>
+         <FW_ENTRY>ENABLED</FW_ENTRY>
+         <SSID_ENTRY verification_pattern="^ORBI[0-9]+$">ENABLED</SSID_ENTRY>
+         <PWD_ENTRY>ENABLED</PWD_ENTRY>
+      </PROD>
+   </PROD_GRP>
+   <CONFIG_DIR>/opt/its3/TSLIB/config/TB_paring_and_pot_reset</CONFIG_DIR>
+   <RESULT_DIR>/tmp/its3/test_results</RESULT_DIR>
+   <ATTENUATOR_VALUE>-10</ATTENUATOR_VALUE>
+   <FIXTURE_USAGE>
+      <SHOW_USAGE_COUNT>YES</SHOW_USAGE_COUNT>
+      <FIXTURE_COUNTER_DIR>/tmp/its3/cable_counter</FIXTURE_COUNTER_DIR>
+      <MAX_LIMIT>500</MAX_LIMIT>
+   </FIXTURE_USAGE>
+   <CORP_NETWORK>www.netgear.com</CORP_NETWORK>
+   <DUT_TEST_DATA>
+      <DUT_DIR>/tmp/its3/dut_test_data</DUT_DIR>
+   </DUT_TEST_DATA>
+   <CALIBRATION>
+      <ENABLED>NO</ENABLED>
+      <CALIBRATION_DIR>/tmp/its3/cal_data</CALIBRATION_DIR>
+      <MAX_LIMIT>100</MAX_LIMIT>
+   </CALIBRATION>
+   <GOLDEN_SAMPLE_DATA>
+      <GOLDEN_SAMPLE_DIR>/tmp/its3/golden_sample_data</GOLDEN_SAMPLE_DIR>
+   </GOLDEN_SAMPLE_DATA>
+   <DB_SERVER>
+      <IP_ADDR>192.168.5.201</IP_ADDR>
+      <USER>pte</USER>
+      <PASSWD>pte</PASSWD>
+      <DATABASE>its_db</DATABASE>
+      <ONLINE>YES</ONLINE>
+      <NUM_TRIES>3</NUM_TRIES>
+      <MONITORING_INTERVAL>30</MONITORING_INTERVAL>
+   </DB_SERVER>
+   <SHOP_FLOOR>
+      <IP_ADDR>192.168.5.201</IP_ADDR>
+      <USER>pte</USER>
+      <PASSWD>pte</PASSWD>
+      <DATABASE>its_db</DATABASE>
+      <STATION_TYPE>ITS3_WN</STATION_TYPE>
+      <ONLINE>NO</ONLINE>
+      <NUM_TRIES>3</NUM_TRIES>
+      <MONITORING_INTERVAL>30</MONITORING_INTERVAL>
+   </SHOP_FLOOR>
+</TS_PROFILE>
