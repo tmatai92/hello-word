@@ -1,20 +1,11 @@
-1. Check Github automation script
+1. Push configuration to github Netgear
+2. SSH and deploy from Jenkins to stations
 
    - Directions:
-	+ Run script automate_github.py to clone(if repository not existed) / pull new commit from github
-	+ Read config info from 'cfg/config.txt'
 	+ Checkout the new config and archive each config folder with format folder_name.tar into source folder
-	+ Using cron to run this script continutious
-    - Run script:
-        + python automate_github.py
-
-2.SSH and deploy from Jenkins to stations
-
-   - Directions:
-
         + transfer_stations.py script: ssh to server
-   	+ Copy folder.tar from local path to station (opt/tmp as default)
-   	+ Extract new folder.tar to working path (opt/config as default)
+   	+ Copy folder.tar from local path to station (path/tmp as default)
+   	+ Extract new folder.tar to working path (path/config as default)
    	+ Archive the existed in working folder with format folder_name_yyyy_mm_dd.tar
 
     - Run script:
