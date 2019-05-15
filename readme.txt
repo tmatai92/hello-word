@@ -2,6 +2,7 @@
 
 
 2. SSH and deploy from Jenkins to stations
+   - Adding Run a job automatically after pushing the code into GIT
 
    - Directions:
 	+ Checkout the new config and archive each config folder with format folder_name.tar into source folder
