@@ -72,7 +72,7 @@ class Centralize:
 		ftp_client.put(os.path.join(source_path,'%s.tar'%folder), '{tmp_path}/{folder}.tar'.format(tmp_path = remote_tmp_path, folder = folder))
 		ftp_client.close()
 		try:
-			command = 'tar -cvf {path}/{folder}_{date}.tar {path}/config'.format(date = datetime.datetime.now().strftime("%Y%m%d%H%M%S"), folder = folder, path= working_path)
+			command = 'tar -cvf {path}/config_{date}.tar {path}/config'.format(date = datetime.datetime.now().strftime("%Y%m%d%H%M%S"), folder = folder, path= working_path)
 			(stdin, stdout, stderr) = ssh.exec_command(command)
 			stdout.read()
 			print ("Executing commands {command}".format(command=command))
